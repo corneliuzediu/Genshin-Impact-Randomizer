@@ -2,12 +2,14 @@
     height: auto;
     padding: 20px;
     width: 100%;
-  
+
+    display: flex;
+    flex-wrap: wrap;
     flex-grow: 1;
     box-sizing: border-box;
-  }
+}
 
-  .router-outlet{
+.router-outlet {
     width: 100%;
     height: 500px;
-  }
+}

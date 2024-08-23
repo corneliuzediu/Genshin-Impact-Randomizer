@@ -1,1 +1,46 @@
-<p>weekly-boss works!</p>
+<div class="wrapper gap-2">
+    <!-- Comands -->
+    <div class="comands_wrapper gap-2">
+        <button
+            pButton
+            pRipple
+            label="Get Random Boss"
+            class="p-button-success"
+            (click)="getRandomBoss()"
+        ></button>
+        <p-toggleButton
+            [(ngModel)]="checked"
+            onLabel="All"
+            offLabel="Selected"
+            (onChange)="selectAllBosses()"
+        />
+    </div>
+    <!-- Board -->
+    <div class="board_wrapper gap-2">
+        <!-- Selected Board-->
+        <div class="selected_board">
+            <p-card class="selected_card" *ngIf="randomBoss">
+                <h2>{{ randomBoss.name }}</h2>
+                <div>
+                    <img src="{{ randomBoss.image_src }}" alt="" />
+                </div>
+            </p-card>
+        </div>
+        <!-- Overview Board -->
+        <div class="overview_board gap-05">
+            <p-card
+                *ngFor="let item of weekly_bosses"
+                [ngClass]="{
+                    weekly_boss_card: true,
+                    'selected-card': isSelected(item)
+                }"
+                (click)="toggleSelection(item)"
+            >
+                <div>
+                    <img src="{{ item.image_src }}" alt="" />
+                </div>
+                <h4>{{ item.name }}</h4>
+            </p-card>
+        </div>
+    </div>
+</div>

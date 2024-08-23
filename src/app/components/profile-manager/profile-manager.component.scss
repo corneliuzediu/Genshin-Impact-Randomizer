@@ -1,0 +1,87 @@
+:root {
+    --border-radius: 8px;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.comands_wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.board_wrapper {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-grow: 1;
+}
+
+.overview_board {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.character_card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 15rem;
+    height: 20rem;
+    box-sizing: border-box;
+    border: 2px solid rgb(237, 201, 187); /* Highlight card with a border */
+    border-radius: var(--border-radius);
+    overflow: hidden;
+
+    img {
+        filter: grayscale(1);
+        width: 100%;
+        min-height: 100px;
+        height: auto;
+        object-fit: contain;
+    }
+
+    h4 {
+        min-height: 2rem;
+        font-size: 1.2rem;
+        text-align: center;
+        margin: 0.5rem 0;
+    }
+}
+
+.selected-card {
+    border-radius: var(--border-radius);
+    border: 2px solid rgb(5, 215, 36); /* Highlight selected card with a border */
+
+    img {
+        filter: grayscale(0);
+    }
+}
+
+.character_card:hover {
+    img {
+        filter: grayscale(0);
+    }
+}
+
+.markers_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+
+    div {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    img {
+        width: 25px;
+        aspect-ratio: 1;
+    }
+}

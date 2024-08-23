@@ -1,1 +1,79 @@
-<p>profile-manager works!</p>
+<div class="wrapper gap-2">
+    <!-- Comands -->
+    <div class="comands_wrapper gap-2">
+        <button
+            pButton
+            pRipple
+            label="Create Profile"
+            class="p-button-success"
+        ></button>
+        <button
+            pButton
+            pRipple
+            label="Edit Profile"
+            class="p-button-success"
+        ></button>
+        <button
+            pButton
+            pRipple
+            label="Delete Profile"
+            class="p-button-success"
+        ></button>
+    </div>
+
+    <!-- Markers -->
+    <div class="markers_wrapper gap-2" *ngIf="nrCharactersSelected !== 0">
+        <div>
+            <img src="assets/favicon.webp" alt="icon characters amount" />
+            <span> {{ nrCharactersSelected }} selected </span>
+        </div>
+        <div>
+            <img src="assets/icons/anemo.svg" alt="" />
+            <span> {{ nrSelectedAnemo }} </span>
+        </div>
+        <div>
+            <img src="assets/icons/cryo.svg" alt="" />
+            <span> {{ nrSelectedCryo }} </span>
+        </div>
+        <div>
+            <img src="assets/icons/dendro.svg" alt="" />
+            <span> {{ nrSelectedDendro }} </span>
+        </div>
+        <div>
+            <img src="assets/icons/electro.svg" alt="" />
+            <span> {{ nrSelectedElectro }} </span>
+        </div>
+        <div>
+            <img src="assets/icons/geo.svg" alt="" />
+            <span> {{ nrSelectedGeo }} </span>
+        </div>
+        <div>
+            <img src="assets/icons/hydro.svg" alt="" />
+            <span> {{ nrSelectedHydro }} </span>
+        </div>
+        <div>
+            <img src="assets/icons/pyro.svg" alt="" />
+            <span> {{ nrSelectedPyro }} </span>
+        </div>
+    </div>
+
+    <!-- Board -->
+    <div class="board_wrapper gap-2">
+        <!-- Overview Board -->
+        <div class="overview_board gap-05">
+            <p-card
+                *ngFor="let character of characters"
+                [ngClass]="{
+                    character_card: true,
+                    'selected-card': isSelected(character)
+                }"
+                (click)="toggleSelection(character)"
+            >
+                <div>
+                    <img src="{{ character.image_src }}" alt="" />
+                </div>
+                <h4>{{ character.name }}</h4>
+            </p-card>
+        </div>
+    </div>
+</div>
