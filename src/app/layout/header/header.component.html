@@ -1,0 +1,44 @@
+<header class="wrapper row gap-1">
+    <img src="assets/logo.png" alt="Logo" />
+    <h1>Genshin Impact Randomizer</h1>
+</header>
+
+<p-sidebar class="sidebar" [(visible)]="sidebarVisible" position="right">
+    <h3>Menu</h3>
+    <div class="column gap-1">
+        <div class="row">
+            <a routerLink="" class="p-button font-bold"> Home </a>
+        </div>
+        <div class="row">
+            <a routerLink="profile" class="p-button font-bold">
+                Profile Manager
+            </a>
+        </div>
+        <div class="row">
+            <a routerLink="/team_randomizer" class="p-button font-bold">
+                Team Randomizer
+            </a>
+        </div>
+        <div class="row">
+            <a routerLink="/team_picker" class="p-button font-bold">
+                Team Picker
+            </a>
+        </div>
+        <div class="row">
+            <a routerLink="/element_restriction" class="p-button font-bold">
+                Element Restriction
+            </a>
+        </div>
+        <div class="row">
+            <a routerLink="/weekly_boss" class="p-button font-bold">
+                Weekly Randomizer
+            </a>
+        </div>
+        <div class="row">
+            <a routerLink="/open_boss" class="p-button font-bold">
+                Boss Randomizer
+            </a>
+        </div>
+    </div>
+</p-sidebar>
+<p-button class="sidebar-btn" (onClick)="toggleSidebar()" icon="pi pi-arrow-left"></p-button>
