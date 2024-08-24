@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "./styles/variables.scss";
+@import "./styles/modified_properties.scss";
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
@@ -84,6 +85,11 @@ app-root {
 .full-center {
     align-items: center;
     justify-content: center;
+}
+
+.wrap{
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .hidden {

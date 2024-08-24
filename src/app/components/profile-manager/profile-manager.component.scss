@@ -1,11 +1,49 @@
-:root {
-    --border-radius: 8px;
+:host {
+    display: block;
+    width: 100%;
 }
 
 .wrapper {
     display: flex;
     flex-direction: column;
+
+    padding-inline: 50px;
+
+    h2 {
+        font-weight: 800;
+        font-style: oblique;
+    }
+}
+
+/* Profile List */
+.profiles_list_wrapper {
     width: 100%;
+
+    div {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    ul {
+        display: flex;
+        flex-direction: column;
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid beige;
+
+            div {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+        }
+    }
+
+    img {
+        width: 100px;
+    }
 }
 
 .comands_wrapper {
@@ -32,10 +70,10 @@
     flex-direction: column;
     align-items: center;
     flex-wrap: wrap;
-    width: 15rem;
-    height: 20rem;
+    width: 10rem;
+    height: 13rem;
     box-sizing: border-box;
-    border: 2px solid rgb(237, 201, 187); /* Highlight card with a border */
+    border: 2px solid rgb(53, 50, 48);
     border-radius: var(--border-radius);
     overflow: hidden;
 
@@ -70,9 +108,49 @@
     }
 }
 
+/* Upper Banner */
+.upper_banner {
+    position: sticky;
+    top: 0px;
+    z-index: 100;
+
+    padding: 10px 15px;
+    border-radius: 10px;
+    background-color: white;
+    opacity: 0.95;
+
+    border-bottom: 1px solid beige;
+}
+
+/* Edit Panel*/
+.edit_panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 10px;
+
+    input {
+        height: 2rem;
+        width: 180px;
+        font-size: 1.2rem;
+        background-color: rgba(209, 209, 209, 0.523);
+        border: 2px solid transparent;
+        border-radius: 10px;
+        padding-left: 15px;
+    }
+
+    label,
+    p-button {
+        margin: 10px;
+    }
+}
+
+/* Markers */
+
 .markers_wrapper {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 
     div {
         display: flex;
@@ -84,4 +162,8 @@
         width: 25px;
         aspect-ratio: 1;
     }
+}
+
+.elements_icons {
+    max-width: 250px;
 }

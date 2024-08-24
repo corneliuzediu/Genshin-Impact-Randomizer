@@ -26,3 +26,11 @@ export interface OpenWorldBoss {
     image_src: string;
     selected: false;
 }
+
+export interface Profile {
+    id: string;
+    userName: string;
+    mainAccount: boolean;
+    traveler?: Character;
+    characters: Character[];
+}

@@ -31,7 +31,7 @@
             <p-card
                 *ngFor="let item of open_world_boss"
                 [ngClass]="{
-                    weekly_boss_card: true,
+                    open_boss_card: true,
                     'selected-card': isSelected(item)
                 }"
                 (click)="toggleSelection(item)"

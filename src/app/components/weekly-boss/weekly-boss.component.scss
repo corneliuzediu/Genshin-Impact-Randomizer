@@ -46,7 +46,7 @@
     width: 15rem;
     height: 20rem;
     box-sizing: border-box;
-    border: 2px solid rgb(237, 201, 187); /* Highlight card with a border */
+    border: 2px solid rgb(53, 50, 48); 
     border-radius: var(--border-radius);
     overflow: hidden;
 
@@ -66,9 +66,15 @@
     }
 }
 
+.weekly_boss_card:hover {
+    img {
+        filter: grayscale(0);
+    }
+}
+
 .selected-card {
     border-radius: var(--border-radius);
-    border: 2px solid rgb(5, 215, 36); /* Highlight selected card with a border */
+    border: 2px solid rgb(5, 215, 36); 
 
     img {
         filter: grayscale(0);

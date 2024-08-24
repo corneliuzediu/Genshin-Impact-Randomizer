@@ -1156,7 +1156,7 @@
             "selected": false
         },
         {
-            "name": "anemo Hypostasis",
+            "name": "Anemo Hypostasis",
             "id": 3,
             "image_src": "./assets/bosses/world_boss/Anemo Hypostasis.webp",
             "selected": false
@@ -1168,31 +1168,31 @@
             "selected": false
         },
         {
-            "name": "cryo Hypostasis",
+            "name": "Cryo Hypostasis",
             "id": 5,
             "image_src": "./assets/bosses/world_boss/Cryo Hypostasis.webp",
             "selected": false
         },
         {
-            "name": "cryo Regisvine",
+            "name": "Cryo Regisvine",
             "id": 6,
             "image_src": "./assets/bosses/world_boss/Cryo Regisvine.webp",
             "selected": false
         },
         {
-            "name": "dendro Hypostasis ",
+            "name": "Cendro Hypostasis ",
             "id": 7,
             "image_src": "./assets/bosses/world_boss/Dendro Hypostasis.webp",
             "selected": false
         },
         {
-            "name": "electro Hypostasis",
+            "name": "Electro Hypostasis",
             "id": 8,
             "image_src": "./assets/bosses/world_boss/Electro Hypostasis.webp",
             "selected": false
         },
         {
-            "name": "electro Regisvine",
+            "name": "Electro Regisvine",
             "id": 9,
             "image_src": "./assets/bosses/world_boss/Electro Regisvine.webp",
             "selected": false
@@ -1204,7 +1204,7 @@
             "selected": false
         },
         {
-            "name": "geo Hypostasis",
+            "name": "Geo Hypostasis",
             "id": 11,
             "image_src": "./assets/bosses/world_boss/Geo Hypostasis.webp",
             "selected": false
@@ -1216,13 +1216,13 @@
             "selected": false
         },
         {
-            "name": "hydro Hypostasis",
+            "name": "Hydro Hypostasis",
             "id": 13,
             "image_src": "./assets/bosses/world_boss/Hydro Hypostasis.webp",
             "selected": false
         },
         {
-            "name": "hydro Tulpa",
+            "name": "Hydro Tulpa",
             "id": 14,
             "image_src": "./assets/bosses/world_boss/Hydro Tulpa.webp",
             "selected": false
@@ -1282,13 +1282,13 @@
             "selected": false
         },
         {
-            "name": "pyro Hypostasis",
+            "name": "Pyro Hypostasis",
             "id": 24,
             "image_src": "./assets/bosses/world_boss/Pyro Hypostasis.webp",
             "selected": false
         },
         {
-            "name": "pyro Regisvine",
+            "name": "Pyro Regisvine",
             "id": 25,
             "image_src": "./assets/bosses/world_boss/Pyro Regisvine.webp",
             "selected": false
