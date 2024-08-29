@@ -1,1 +1,175 @@
-<p>No Selected Profile</p>
+<p-accordion [activeIndex]="0">
+    <form
+        [formGroup]="selectorForm"
+        (ngSubmit)="$event.preventDefault(); submitForm()"
+    >
+        <!-- Tab 1 - Traveler Name -->
+        <p-accordionTab header="Profiles">
+            <div formArrayName="profiles">
+                <label>
+                    <input
+                        type="checkbox"
+                        (change)="handleCheckboxChange($event, 'profiles')"
+                    />
+                    Select All Profiles
+                </label>
+                <div *ngFor="let profile of profiles; let i = index">
+                    <label>
+                        <input type="checkbox" [formControlName]="i" />
+                        {{ profile.userName }}
+                    </label>
+                </div>
+            </div>
+        </p-accordionTab>
+
+        <!-- Tab 2 - Traveler Element -->
+        <p-accordionTab header="Travelers Element">
+            <div formArrayName="travelerElement">
+                <div *ngFor="let profile of profiles">
+                    <p>{{ profile.userName }}</p>
+                    <div
+                        *ngFor="let element of distinctElements; let i = index"
+                    >
+                        <label>
+                            <input type="checkbox" [formControlName]="i" />
+                            {{ element }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </p-accordionTab>
+
+        <!-- Tab 3 - Elements -->
+        <p-accordionTab header="Elements">
+            <div formArrayName="elements">
+                <label>
+                    <input type="checkbox" 
+                    (change)="handleCheckboxChange($event, 'elements')"
+                    
+                    />
+                    Select All Elements
+                </label>
+                <div *ngFor="let element of distinctElements; let i = index">
+                    <label>
+                        <input type="checkbox" [formControlName]="i" />
+                        {{ element }}
+                    </label>
+                </div>
+            </div>
+        </p-accordionTab>
+
+        <!-- Tab 4 - Weapons -->
+        <p-accordionTab header="Weapons">
+            <div formArrayName="weapons">
+                <label>
+                    <input type="checkbox" />
+                    <!-- (change)="selectAll('weapons', $event.target.checked)" -->
+                    Select All Weapons
+                </label>
+                <div *ngFor="let weapon of distinctWeapons; let i = index">
+                    <label>
+                        <input type="checkbox" [formControlName]="i" />
+                        {{ weapon }}
+                    </label>
+                </div>
+            </div>
+        </p-accordionTab>
+
+        <!-- Tab 5 - Stars -->
+        <p-accordionTab header="Stars">
+            <div formArrayName="stars">
+                <label>
+                    <input type="checkbox" />
+                    <!-- (change)="selectAll('weapons', $event.target.checked)" -->
+                    Select All Stars
+                </label>
+                <div *ngFor="let star of distinctStars; let i = index">
+                    <label>
+                        <input type="checkbox" [formControlName]="i" />
+                        {{ star }}
+                    </label>
+                </div>
+            </div>
+        </p-accordionTab>
+
+        <!-- Tab 6 - Location -->
+        <p-accordionTab header="Location">
+            <div formArrayName="locations">
+                <label>
+                    <input type="checkbox" />
+                    <!-- (change)="selectAll('weapons', $event.target.checked)" -->
+                    Select All Locationa
+                </label>
+                <div *ngFor="let location of distinctLocations; let i = index">
+                    <label>
+                        <input type="checkbox" [formControlName]="i" />
+                        {{ location }}
+                    </label>
+                </div>
+            </div>
+        </p-accordionTab>
+
+        <!-- Tab 7 - Genres -->
+        <p-accordionTab header="Genre">
+            <div formArrayName="genres">
+                <label>
+                    <input type="checkbox" />
+                    <!-- (change)="selectAll('weapons', $event.target.checked)" -->
+                    Select All Genres
+                </label>
+                <div *ngFor="let genres of distinctGenres; let i = index">
+                    <label>
+                        <input type="checkbox" [formControlName]="i" />
+                        {{ genres }}
+                    </label>
+                </div>
+            </div>
+        </p-accordionTab>
+
+        <!-- Tab 8 - Heights -->
+        <p-accordionTab header="Height">
+            <div formArrayName="heights">
+                <label>
+                    <input type="checkbox" />
+                    <!-- (change)="selectAll('weapons', $event.target.checked)" -->
+                    Select All Weapons
+                </label>
+                <div *ngFor="let height of distinctHeights; let i = index">
+                    <label>
+                        <input type="checkbox" [formControlName]="i" />
+                        {{ height }}
+                    </label>
+                </div>
+            </div>
+        </p-accordionTab>
+
+        <!-- Tab 8 - Heights -->
+        <p-accordionTab header="Archon">
+            <div formArrayName="archon">
+                <label>
+                    <input type="checkbox" />
+                    <!-- (change)="selectAll('weapons', $event.target.checked)" -->
+                    Select Archons
+                </label>
+            </div>
+        </p-accordionTab>
+
+        <div class="mb-3">
+            <button
+                class="btn btn-primary"
+                type="submit"
+                [disabled]="selectorForm.invalid"
+            >
+                Send Message
+            </button>
+        </div>
+    </form>
+</p-accordion>
+
+<!-- <div>
+    <h3>Selected Elements:</h3>
+    <p>{{ getSelectedItems("elements", elements) | json }}</p>
+
+    <h3>Selected Weapons:</h3>
+    <p>{{ getSelectedItems("weapons", weapons) | json }}</p>
+</div> -->

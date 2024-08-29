@@ -8,6 +8,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { LocalService } from '../../services/local.service';
 
 @Component({
     selector: 'app-profile-manager',
@@ -30,7 +31,7 @@ export class ProfileManagerComponent {
     @Output() mainAccountChange = new EventEmitter<Profile>();
 
     profiles: Profile[] = [];
-    characters: Character[] = [];
+    characters!: Character[];
     selectedCharacters: Character[] = [];
     currentProfile: any = null;
     isEditing: boolean = false;
@@ -47,20 +48,15 @@ export class ProfileManagerComponent {
     nrSelectedHydro: number = 0;
     nrSelectedPyro: number = 0;
 
+    constructor(private local: LocalService) {}
+
     ngOnInit() {
-        this.loadProfiles();
-        this.characters = this.loadCharacters();
+        this.loadLocal();
     }
 
-    loadProfiles() {
-        const storedProfiles = localStorage.getItem('profiles');
-        this.profiles = storedProfiles ? JSON.parse(storedProfiles) : [];
-        console.log(this.profiles, 'Profile');
-    }
-
-    loadCharacters(): Character[] {
-        const storedCharactersLocal = localStorage.getItem('characters');
-        return storedCharactersLocal ? JSON.parse(storedCharactersLocal) : [];
+    loadLocal() {
+        this.profiles = this.local.loadLocalItem('profiles');
+        this.characters = this.local.loadLocalItem('characters');
     }
 
     saveProfiles() {
@@ -68,14 +64,14 @@ export class ProfileManagerComponent {
     }
 
     createProfile() {
+        console.log(this.characters);
         this.currentProfile = {
             id: Date.now().toString(),
             userName: '',
             mainAccount: false,
             traveler: '',
-            selectedCharacters: [],
+            characters: [],
         }; // Initialize with default values
-        this.selectedCharacters = []; // Reset selected characters
         this.isEditing = false;
         this.currentSection = 'form';
     }
@@ -83,13 +79,12 @@ export class ProfileManagerComponent {
     editProfile(profile: Profile) {
         this.resetCounters();
         this.currentProfile = { ...profile };
-        this.selectedCharacters = [...this.currentProfile.selectedCharacters]; // Load selected characters for editing
+        this.characters = profile.characters;
         this.isEditing = true;
         this.currentSection = 'form';
     }
 
     saveProfile() {
-        this.currentProfile.selectedCharacters = this.selectedCharacters;
         this.currentProfile.traveler = this.getTraveler();
         if (this.isEditing) {
             const index = this.profiles.findIndex(
@@ -99,10 +94,13 @@ export class ProfileManagerComponent {
                 this.profiles[index] = this.currentProfile;
             }
         } else {
+            this.currentProfile.characters = this.characters;
+            debugger;
             this.profiles.push(this.currentProfile);
         }
         this.saveProfiles();
         this.currentSection = 'list';
+        this.characters = this.local.loadLocalItem('characters'); //reset characters propertie
     }
 
     confirmDeleteProfile(profile: Profile) {
@@ -121,23 +119,22 @@ export class ProfileManagerComponent {
         this.currentSection = 'list';
     }
 
+    selectCharacterCSS(character: Character) {
+        return { 'selected-card': character.selected };
+    }
+
+    toggleSelection(character: Character) {
+        console.log(this.characters);
+        character.selected = !character.selected;
+
+        this.updateMarkers();
+    }
+
     isSelected(character: Character): boolean {
         return this.selectedCharacters.includes(character);
     }
 
-    toggleSelection(item: Character) {
-        const index = this.selectedCharacters.indexOf(item);
-        if (index === -1) {
-            item.selected = true;
-            this.selectedCharacters.push(item);
-        } else {
-            this.selectedCharacters.splice(index, 1);
-        }
-        this.updateMarkers();
-    }
-
     getTraveler() {
-        debugger;
         if (this.genre) {
             return this.characters.find(
                 (character) => character.name === 'Aether'

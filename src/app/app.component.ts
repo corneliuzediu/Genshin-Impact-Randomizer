@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './components/home/home.component';
 import { Character, OpenWorldBoss, WeeklyBoss } from '../types';
 import { DataService } from './services/data.service';
 import { SortService } from './services/sort.service';
+import { LocalService } from './services/local.service';
 
 @Component({
     selector: 'app-root',
@@ -23,11 +24,11 @@ import { SortService } from './services/sort.service';
 export class AppComponent {
     constructor(
         private dataService: DataService,
-        private sortingService: SortService
+        private sortingService: SortService,
+        private localService: LocalService
     ) {}
 
     title = 'Genshin-Impact-Randomizer';
-    
 
     characters: Character[] = [];
     open_world_bosses: OpenWorldBoss[] = [];
@@ -37,7 +38,7 @@ export class AppComponent {
     ngOnInit() {
         this.getJsonData();
         if (this.checkPreviousVisit()) {
-            this.saveLocalStorage();
+            this.saveLocal();
         }
     }
 
@@ -47,7 +48,6 @@ export class AppComponent {
                 this.characters = data.characters;
                 this.weekly_bosses = data.weekly_boss;
                 this.open_world_bosses = data.world_boss;
-                console.log('DB', data);
                 this.sortElements();
             },
             error: (err) => {
@@ -58,39 +58,27 @@ export class AppComponent {
 
     sortElements() {
         this.characters = this.sortingService.sortEntityByName(this.characters);
-        this.weekly_bosses = this.sortingService.sortEntityByName(this.weekly_bosses);
-        this.open_world_bosses = this.sortingService.sortEntityByName(this.open_world_bosses);
+        this.weekly_bosses = this.sortingService.sortEntityByName(
+            this.weekly_bosses
+        );
+        this.open_world_bosses = this.sortingService.sortEntityByName(
+            this.open_world_bosses
+        );
     }
 
-    saveLocalStorage() {
+    saveLocal() {
         // Characters
-        const charactersString = JSON.stringify(this.characters);
-        localStorage.setItem('characters', charactersString);
-
+        this.localService.saveLocalStorage('characters', this.characters);
         // Open World Bosses
-        const openWorldBossesString = JSON.stringify(this.open_world_bosses);
-        localStorage.setItem('open_world_bosses', openWorldBossesString);
-
+        this.localService.saveLocalStorage(
+            'open_world_bosses',
+            this.open_world_bosses
+        );
         // Weekly Bosses
-        const weeklyBossesString = JSON.stringify(this.weekly_bosses);
-        localStorage.setItem('weekly_bosses', weeklyBossesString);
-    }
-
-    getLocalStorage(): Character[] | WeeklyBoss[] | OpenWorldBoss[] {
-        const storedCharactersLocal = localStorage.getItem('characters');
-        if (storedCharactersLocal) {
-            return JSON.parse(storedCharactersLocal);
-        } else {
-            return []; // Return an empty array if nothing is found in local storage
-        }
+        this.localService.saveLocalStorage('weekly_bosses', this.weekly_bosses);
     }
 
     checkPreviousVisit() {
-        const somethingLocal = this.getLocalStorage();
-        if (somethingLocal != undefined) {
-            return true;
-        } else {
-            return false;
-        }
+        return !!this.localService.getLocalStorage; // Return True or False
     }
 }

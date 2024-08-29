@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './components/home/home.component';
 import { ProfileManagerComponent } from './components/profile-manager/profile-manager.component';
 import { TeamRandomizerComponent } from './components/team-randomizer/team-randomizer.component';
 import { TeamPickerComponent } from './components/team-picker/team-picker.component';

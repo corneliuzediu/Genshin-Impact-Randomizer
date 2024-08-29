@@ -149,10 +149,7 @@
                 <div class="overview_board gap-05">
                     <p-card
                         *ngFor="let character of characters"
-                        [ngClass]="{
-                            character_card: true,
-                            'selected-card': isSelected(character)
-                        }"
+                        [ngClass]="selectCharacterCSS(character)"
                         (click)="toggleSelection(character)"
                     >
                         <div>

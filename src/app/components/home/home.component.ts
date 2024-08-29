@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from '../layout/header/header.component';
-import { FooterComponent } from '../layout/footer/footer.component';
+import { HeaderComponent } from '../../layout/header/header.component';
+import { FooterComponent } from '../../layout/footer/footer.component';
 import { CommonModule } from '@angular/common';
-import { Profile } from '../../types';
+import { Profile } from '../../../types';
 
 @Component({
     selector: 'app-home',
