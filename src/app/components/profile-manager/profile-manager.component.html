@@ -44,6 +44,7 @@
                         severity="danger"
                         (click)="confirmDeleteProfile(profile)"
                         icon="pi pi-trash"
+                        iconPos="right"
                         class="gap-05"
                         [raised]="true"
                     />
@@ -72,19 +73,18 @@
                         <label>Traveler: </label>
                         <p-toggleButton
                             name="traveler"
-                            [(ngModel)]="genre"
+                            [(ngModel)]="isTravelerMale"
                             onLabel="Male"
                             offLabel="Female"
                         />
                     </div>
-                    <div>
+                    <div class="upper_banner_btn">
                         <p-button
                             label="Save"
                             [text]="true"
                             severity="success"
                             type="submit"
                             icon="pi pi-user-edit"
-                            class="gap-05"
                             [raised]="true"
                             [disabled]="profileForm.invalid"
                         />
@@ -93,8 +93,7 @@
                             [text]="true"
                             severity="secondary"
                             (click)="cancel()"
-                            icon="pi pi-user-undo"
-                            class="gap-05"
+                            icon="pi pi-undo"
                             [raised]="true"
                         />
                     </div>
@@ -163,9 +162,22 @@
     </div>
 
     <!-- Safety question before Delete-->
-    <div *ngIf="currentSection === 'delete'">
+    <div *ngIf="currentSection === 'delete'" class="safety_question_wrapper">
         <h2>Are you sure you want to delete {{ currentProfile.name }}?</h2>
-        <button (click)="deleteProfile()">Yes</button>
-        <button (click)="cancel()">No</button>
+        <div class=".row gap-05">
+            <p-button
+                label="Yes"
+                icon="pi pi-trash"
+                iconPos="right"
+                severity="danger"
+                (click)="deleteProfile()"
+            ></p-button>
+            <p-button
+                label="No"
+                icon="pi pi-undo"
+                severity="secondary"
+                (click)="cancel()"
+            ></p-button>
+        </div>
     </div>
 </div>

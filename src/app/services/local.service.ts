@@ -12,15 +12,6 @@ export class LocalService {
         localStorage.setItem(name, objString);
     }
 
-    getLocalStorage(): Character[] | WeeklyBoss[] | OpenWorldBoss[] {
-        const storedCharactersLocal = localStorage.getItem('characters');
-        if (storedCharactersLocal) {
-            return JSON.parse(storedCharactersLocal);
-        } else {
-            return []; // Return an empty array if nothing is found in local storage
-        }
-    }
-
     loadLocalItem(name: string) {
         const item = localStorage.getItem(name);
         return item ? JSON.parse(item) : [];

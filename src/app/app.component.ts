@@ -79,6 +79,6 @@ export class AppComponent {
     }
 
     checkPreviousVisit() {
-        return !!this.localService.getLocalStorage; // Return True or False
+        return !!this.localService.loadLocalItem('characters'); // Return True or False
     }
 }

@@ -1,11 +1,16 @@
-<p-accordion [activeIndex]="0">
+<p-accordion
+    [activeIndex]="0"
+    class="accordation_wrapper"
+    expandIcon="pi pi-plus"
+    collapseIcon="pi pi-minus"
+>
     <form
         [formGroup]="selectorForm"
         (ngSubmit)="$event.preventDefault(); submitForm()"
     >
         <!-- Tab 1 - Traveler Name -->
-        <p-accordionTab header="Profiles">
-            <div formArrayName="profiles">
+        <p-accordionTab header="Profiles" iconPos="end">
+            <div formArrayName="profiles" class="dinamic_wrapper">
                 <label>
                     <input
                         type="checkbox"
@@ -13,26 +18,28 @@
                     />
                     Select All Profiles
                 </label>
-                <div *ngFor="let profile of profiles; let i = index">
-                    <label>
-                        <input type="checkbox" [formControlName]="i" />
-                        {{ profile.userName }}
-                    </label>
+                <div class="dinamic_randering">
+                    <div *ngFor="let profile of profiles; let i = index">
+                        <label>
+                            {{ profile.userName }}
+                            <input type="checkbox" value="{{profile.userName}}" [formControlName]="i" />
+                        </label>
+                    </div>
                 </div>
             </div>
         </p-accordionTab>
 
         <!-- Tab 2 - Traveler Element -->
-        <p-accordionTab header="Travelers Element">
-            <div formArrayName="travelerElement">
+        <p-accordionTab header="Travelers Element" iconPos="end">
+            <div formArrayName="travelerElement" class="dinamic_randering">
                 <div *ngFor="let profile of profiles">
                     <p>{{ profile.userName }}</p>
                     <div
                         *ngFor="let element of distinctElements; let i = index"
                     >
                         <label>
-                            <input type="checkbox" [formControlName]="i" />
                             {{ element }}
+                            <input type="checkbox" [formControlName]="i" />
                         </label>
                     </div>
                 </div>
@@ -40,27 +47,33 @@
         </p-accordionTab>
 
         <!-- Tab 3 - Elements -->
-        <p-accordionTab header="Elements">
-            <div formArrayName="elements">
+        <p-accordionTab header="Elements" iconPos="end">
+            <div
+                formArrayName="elements"
+                class="dinamic_wrapper dinamic_randering"
+            >
                 <label>
-                    <input type="checkbox" 
-                    (change)="handleCheckboxChange($event, 'elements')"
-                    
+                    <input
+                        type="checkbox"
+                        (change)="handleCheckboxChange($event, 'elements')"
                     />
                     Select All Elements
                 </label>
                 <div *ngFor="let element of distinctElements; let i = index">
                     <label>
-                        <input type="checkbox" [formControlName]="i" />
                         {{ element }}
+                        <input type="checkbox" [formControlName]="i" />
                     </label>
                 </div>
             </div>
         </p-accordionTab>
 
         <!-- Tab 4 - Weapons -->
-        <p-accordionTab header="Weapons">
-            <div formArrayName="weapons">
+        <p-accordionTab header="Weapons" iconPos="end">
+            <div
+                formArrayName="weapons"
+                class="dinamic_wrapper dinamic_randering"
+            >
                 <label>
                     <input type="checkbox" />
                     <!-- (change)="selectAll('weapons', $event.target.checked)" -->
@@ -68,16 +81,19 @@
                 </label>
                 <div *ngFor="let weapon of distinctWeapons; let i = index">
                     <label>
-                        <input type="checkbox" [formControlName]="i" />
                         {{ weapon }}
+                        <input type="checkbox" [formControlName]="i" />
                     </label>
                 </div>
             </div>
         </p-accordionTab>
 
         <!-- Tab 5 - Stars -->
-        <p-accordionTab header="Stars">
-            <div formArrayName="stars">
+        <p-accordionTab header="Stars" iconPos="end">
+            <div
+                formArrayName="stars"
+                class="dinamic_wrapper dinamic_randering"
+            >
                 <label>
                     <input type="checkbox" />
                     <!-- (change)="selectAll('weapons', $event.target.checked)" -->
@@ -85,16 +101,19 @@
                 </label>
                 <div *ngFor="let star of distinctStars; let i = index">
                     <label>
-                        <input type="checkbox" [formControlName]="i" />
                         {{ star }}
+                        <input type="checkbox" [formControlName]="i" />
                     </label>
                 </div>
             </div>
         </p-accordionTab>
 
         <!-- Tab 6 - Location -->
-        <p-accordionTab header="Location">
-            <div formArrayName="locations">
+        <p-accordionTab header="Location" iconPos="end">
+            <div
+                formArrayName="locations"
+                class="dinamic_wrapper dinamic_randering"
+            >
                 <label>
                     <input type="checkbox" />
                     <!-- (change)="selectAll('weapons', $event.target.checked)" -->
@@ -102,16 +121,19 @@
                 </label>
                 <div *ngFor="let location of distinctLocations; let i = index">
                     <label>
-                        <input type="checkbox" [formControlName]="i" />
                         {{ location }}
+                        <input type="checkbox" [formControlName]="i" />
                     </label>
                 </div>
             </div>
         </p-accordionTab>
 
         <!-- Tab 7 - Genres -->
-        <p-accordionTab header="Genre">
-            <div formArrayName="genres">
+        <p-accordionTab header="Genre" iconPos="end">
+            <div
+                formArrayName="genres"
+                class="dinamic_wrapper dinamic_randering"
+            >
                 <label>
                     <input type="checkbox" />
                     <!-- (change)="selectAll('weapons', $event.target.checked)" -->
@@ -119,16 +141,19 @@
                 </label>
                 <div *ngFor="let genres of distinctGenres; let i = index">
                     <label>
-                        <input type="checkbox" [formControlName]="i" />
                         {{ genres }}
+                        <input type="checkbox" [formControlName]="i" />
                     </label>
                 </div>
             </div>
         </p-accordionTab>
 
         <!-- Tab 8 - Heights -->
-        <p-accordionTab header="Height">
-            <div formArrayName="heights">
+        <p-accordionTab header="Height" iconPos="end">
+            <div
+                formArrayName="heights"
+                class="dinamic_wrapper dinamic_randering"
+            >
                 <label>
                     <input type="checkbox" />
                     <!-- (change)="selectAll('weapons', $event.target.checked)" -->
@@ -136,16 +161,19 @@
                 </label>
                 <div *ngFor="let height of distinctHeights; let i = index">
                     <label>
-                        <input type="checkbox" [formControlName]="i" />
                         {{ height }}
+                        <input type="checkbox" [formControlName]="i" />
                     </label>
                 </div>
             </div>
         </p-accordionTab>
 
-        <!-- Tab 8 - Heights -->
-        <p-accordionTab header="Archon">
-            <div formArrayName="archon">
+        <!-- Tab 9 - Archon -->
+        <p-accordionTab header="Archon" iconPos="end" class="mb-3">
+            <div
+                formArrayName="archon"
+                class="dinamic_wrapper dinamic_randering"
+            >
                 <label>
                     <input type="checkbox" />
                     <!-- (change)="selectAll('weapons', $event.target.checked)" -->
@@ -154,14 +182,15 @@
             </div>
         </p-accordionTab>
 
-        <div class="mb-3">
-            <button
+        <div class="dinamic_wrapper">
+            <p-button
+                label="Get Random Team"
                 class="btn btn-primary"
+                icon="pi pi-users"
                 type="submit"
                 [disabled]="selectorForm.invalid"
             >
-                Send Message
-            </button>
+            </p-button>
         </div>
     </form>
 </p-accordion>

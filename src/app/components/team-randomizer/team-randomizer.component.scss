@@ -1,0 +1,39 @@
+:host {
+    width: 100%;
+}
+
+/* Accordation */
+.dinamic_wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+
+    .dinamic_randering{
+        gap: 2rem;
+
+    }
+}
+
+.dinamic_randering {
+    display: flex;
+    justify-content: space-between;
+
+    .ng-star-inserted {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 8rem;
+
+        label {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid gray;
+        }
+
+        label:hover {
+            font-weight: 700;
+        }
+    }
+}

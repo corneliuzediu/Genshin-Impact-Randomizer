@@ -10,6 +10,7 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { LocalService } from '../../services/local.service';
 
+
 @Component({
     selector: 'app-profile-manager',
     standalone: true,
@@ -37,7 +38,7 @@ export class ProfileManagerComponent {
     isEditing: boolean = false;
 
     currentSection: string = 'list'; // Possible values: 'list', 'form', 'delete'
-    genre: boolean = true; // Default value
+    isTravelerMale: boolean = true; // Default value
 
     nrCharactersSelected: number = 0;
     nrSelectedAnemo: number = 0;
@@ -64,7 +65,7 @@ export class ProfileManagerComponent {
     }
 
     createProfile() {
-        console.log(this.characters);
+        this.characters = this.local.loadLocalItem('characters');
         this.currentProfile = {
             id: Date.now().toString(),
             userName: '',
@@ -135,11 +136,11 @@ export class ProfileManagerComponent {
     }
 
     getTraveler() {
-        if (this.genre) {
+        if (this.isTravelerMale) {
             return this.characters.find(
                 (character) => character.name === 'Aether'
             );
-        } else if (!this.genre) {
+        } else if (!this.isTravelerMale) {
             return this.characters.find(
                 (character) => character.name === 'Lumine'
             );

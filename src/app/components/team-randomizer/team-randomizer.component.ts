@@ -3,6 +3,7 @@ import { Character, Profile } from '../../../types';
 import { LocalService } from '../../services/local.service';
 import { CommonModule } from '@angular/common';
 import { AccordionModule } from 'primeng/accordion';
+import { ButtonModule } from 'primeng/button';
 import {
     FormBuilder,
     FormGroup,
@@ -10,11 +11,12 @@ import {
     FormControl,
     ReactiveFormsModule,
 } from '@angular/forms';
+import { RandomSelectorService } from '../../services/random-selector.service';
 
 @Component({
     selector: 'app-team-randomizer',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, AccordionModule],
+    imports: [CommonModule, ReactiveFormsModule, AccordionModule, ButtonModule],
     templateUrl: './team-randomizer.component.html',
     styleUrl: './team-randomizer.component.scss',
 })
@@ -33,7 +35,11 @@ export class TeamRandomizerComponent {
     //Form
     selectorForm!: FormGroup;
 
-    constructor(private local: LocalService, private fb: FormBuilder) {}
+    constructor(
+        private local: LocalService,
+        private fb: FormBuilder,
+        private randomizer: RandomSelectorService
+    ) {}
 
     ngOnInit() {
         this.profiles = this.local.loadLocalItem('profiles');
@@ -68,18 +74,18 @@ export class TeamRandomizerComponent {
             locations: this.buildFormArray(this.distinctLocations),
             genres: this.buildFormArray(this.distinctGenres),
             heights: this.buildFormArray(this.distinctHeights),
-            archon: new FormControl(false),
+            archon: new FormControl(),
         });
     }
 
     buildFormArray(items: string[]): FormArray {
-        const controls = items.map(() => new FormControl(false));
+        const controls = items.map((item) => item);
         return this.fb.array(controls);
     }
 
     handleCheckboxChange(event: Event, formArrayName: string): void {
-      const target = event.target as HTMLInputElement;
-      this.selectAll(formArrayName, target.checked);
+        const target = event.target as HTMLInputElement;
+        this.selectAll(formArrayName, target.checked);
     }
 
     selectAll(formArrayName: string, isChecked: boolean): void {
@@ -95,6 +101,6 @@ export class TeamRandomizerComponent {
     }
 
     submitForm() {
-        console.log(this.selectorForm.controls);
+        this.randomizer.getRandomTeam(this.selectorForm.value, this.profiles);
     }
 }
