@@ -74,7 +74,7 @@ export class TeamRandomizerComponent {
             locations: this.buildFormArray(this.distinctLocations),
             genres: this.buildFormArray(this.distinctGenres),
             heights: this.buildFormArray(this.distinctHeights),
-            archon: new FormControl(),
+            archon: new FormControl(true),
         });
     }
 
