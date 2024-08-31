@@ -18,7 +18,9 @@
 
 .dinamic_randering {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 40rem;
 
     .ng-star-inserted {
         display: flex;
@@ -27,6 +29,7 @@
         width: 8rem;
 
         label {
+            text-transform: capitalize;
             display: flex;
             justify-content: space-between;
             border-bottom: 1px solid gray;

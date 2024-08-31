@@ -70,13 +70,25 @@
                         />
                     </div>
                     <div class="card flex justify-content-center">
-                        <label>Traveler: </label>
-                        <p-toggleButton
-                            name="traveler"
-                            [(ngModel)]="isTravelerMale"
-                            onLabel="Male"
-                            offLabel="Female"
-                        />
+                        <div>
+                            <label>Traveler: </label>
+                            <p-toggleButton
+                                name="traveler"
+                                [(ngModel)]="isTravelerMale"
+                                onLabel="Male"
+                                offLabel="Female"
+                            />
+                        </div>
+                        <div>
+                            <p-dropdown
+                                name="travelerElement"
+                                [options]="elements"
+                                [(ngModel)]="selectedElement"
+                                optionLabel="name"
+                                placeholder="Element of the Traveler"
+                                required="treu"
+                            />
+                        </div>
                     </div>
                     <div class="upper_banner_btn">
                         <p-button
@@ -148,6 +160,7 @@
                 <div class="overview_board gap-05">
                     <p-card
                         *ngFor="let character of characters"
+                        class="character_card"
                         [ngClass]="selectCharacterCSS(character)"
                         (click)="toggleSelection(character)"
                     >

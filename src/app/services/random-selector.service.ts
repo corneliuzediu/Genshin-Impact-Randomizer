@@ -33,7 +33,6 @@ export class RandomSelectorService {
             const availableCharacters = this.selectedCharacters.filter(
                 (character) => this.elements.includes(character.element)
             );
-            debugger
             console.log('character: ', availableCharacters);
         });
         console.log('profile: ', typeof this.selectedCharacters);

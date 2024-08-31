@@ -10,7 +10,6 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { LocalService } from '../../services/local.service';
 
-
 @Component({
     selector: 'app-profile-manager',
     standalone: true,
@@ -39,6 +38,15 @@ export class ProfileManagerComponent {
 
     currentSection: string = 'list'; // Possible values: 'list', 'form', 'delete'
     isTravelerMale: boolean = true; // Default value
+
+    elements: any = [
+        { name: 'anemo' },
+        { name: 'geo' },
+        { name: 'electro' },
+        { name: 'dendro' },
+        { name: 'hydro' },
+    ];
+    selectedElement: any | undefined;
 
     nrCharactersSelected: number = 0;
     nrSelectedAnemo: number = 0;
@@ -78,9 +86,11 @@ export class ProfileManagerComponent {
     }
 
     editProfile(profile: Profile) {
+        debugger;
         this.resetCounters();
         this.currentProfile = { ...profile };
         this.characters = profile.characters;
+        this.selectedElement = this.currentProfile.traveler.element;
         this.isEditing = true;
         this.currentSection = 'form';
     }
@@ -102,6 +112,21 @@ export class ProfileManagerComponent {
         this.saveProfiles();
         this.currentSection = 'list';
         this.characters = this.local.loadLocalItem('characters'); //reset characters propertie
+    }
+
+    modifyTraveler() {
+        let updatedCharacterArray = this.currentProfile.characters.filter(
+            (character) => {
+                if (character.element === 'omni') {
+                    character.element = this.selectedElement.name;
+                }
+
+                return character;
+            }
+        );
+
+        console.log(updatedCharacterArray);
+        console.log(this.currentProfile);
     }
 
     confirmDeleteProfile(profile: Profile) {

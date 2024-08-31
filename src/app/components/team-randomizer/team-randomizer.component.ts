@@ -31,6 +31,7 @@ export class TeamRandomizerComponent {
     distinctLocations!: any;
     distinctGenres!: any;
     distinctHeights!: any;
+    distinctArchon!: any;
 
     //Form
     selectorForm!: FormGroup;
@@ -67,7 +68,6 @@ export class TeamRandomizerComponent {
             profiles: this.buildFormArray(
                 this.profiles.map((profile) => profile.userName)
             ),
-            travelerElement: this.buildFormArray(this.distinctElements),
             elements: this.buildFormArray(this.distinctElements),
             weapons: this.buildFormArray(this.distinctWeapons),
             stars: this.buildFormArray(this.distinctStars),
@@ -83,9 +83,24 @@ export class TeamRandomizerComponent {
         return this.fb.array(controls);
     }
 
-    handleCheckboxChange(event: Event, formArrayName: string): void {
+    handleCheckboxChange(
+        event: Event,
+        formArrayName: string,
+        value: string
+    ): void {
         const target = event.target as HTMLInputElement;
-        this.selectAll(formArrayName, target.checked);
+        const formArray = this.selectorForm.get(formArrayName) as FormArray;
+
+        if (target.checked) {
+            formArray.push(new FormControl(value));
+        } else {
+            const index = formArray.controls.findIndex(
+                (ctrl) => ctrl.value === value
+            );
+            if (index >= 0) {
+                formArray.removeAt(index);
+            }
+        }
     }
 
     selectAll(formArrayName: string, isChecked: boolean): void {
@@ -101,6 +116,49 @@ export class TeamRandomizerComponent {
     }
 
     submitForm() {
-        this.randomizer.getRandomTeam(this.selectorForm.value, this.profiles);
+        // this.randomizer.getRandomTeam(this.selectorForm.value, this.profiles);
+        for (let key in this.selectorForm.controls) {
+            if (this.selectorForm.controls.hasOwnProperty(key)) {
+                const control = this.selectorForm.controls[key];
+                // console.log(`${key}:`, control.value);
+                switch (key) {
+                    case 'elements':
+                        this.distinctElements = control.value.filter(
+                            (element) => element !== 'omni'
+                        );
+                        console.log(this.distinctElements);
+                        break;
+                    case 'weapons':
+                        this.distinctWeapons = control.value;
+                        console.log(this.distinctWeapons);
+                        break;
+                    case 'stars':
+                        this.distinctStars = control.value;
+                        console.log(this.distinctStars);
+                        break;
+                    case 'locations':
+                        this.distinctLocations = control.value;
+                        console.log(this.distinctLocations);
+                        break;
+                    case 'genres':
+                        this.distinctGenres = control.value;
+                        console.log(this.distinctGenres);
+                        break;
+                    case 'heights':
+                        this.distinctHeights = control.value;
+                        console.log(this.distinctHeights);
+                        break;
+                    case 'archon':
+                        this.distinctArchon = control.value;
+                        console.log(this.distinctArchon);
+
+                        break;
+                    default:
+                        break;
+                }
+                this.getIndividualElements();
+                this.createForm();
+            }
+        }
     }
 }
