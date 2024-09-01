@@ -65,6 +65,108 @@
     flex-wrap: wrap;
 }
 
+/* Upper Banner */
+.upper_banner {
+    position: sticky;
+    top: 0px;
+    z-index: 100;
+
+    padding: 10px 15px;
+    border-radius: 10px;
+    background-color: white;
+    opacity: 0.95;
+
+    border-bottom: 1px solid beige;
+}
+
+/* Edit Panel*/
+.edit_panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-transform: capitalize;
+}
+
+.name_section {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    input {
+        height: 2rem;
+        width: 180px;
+        font-size: 1.2rem;
+        background-color: rgba(209, 209, 209, 0.523);
+        border: 2px solid transparent;
+        border-radius: 10px;
+        padding-left: 15px;
+    }
+
+    label,
+    p-button {
+        margin: 10px;
+    }
+}
+
+.traveler_selector_section {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    gap: 0.5rem;
+
+    div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    p-dropdown.p-element {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .p-component.p-inputwrapper {
+            width: 100%;
+        }
+    }
+}
+
+.upper_banner_btn {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 150px;
+
+    
+}
+/* Markers */
+
+.markers_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+
+    div {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    img {
+        width: 25px;
+        aspect-ratio: 1;
+    }
+}
+
+.elements_icons {
+    max-width: 250px;
+}
+
+/* Card Classes */
+
 .character_card {
     display: flex;
     flex-direction: column;
@@ -86,7 +188,6 @@
     }
 
     h4 {
-        // min-height: 2rem;
         font-size: 1.2rem;
         text-align: center;
         margin: 0.5rem 0;
@@ -112,71 +213,6 @@
     img {
         filter: grayscale(0);
     }
-}
-
-/* Upper Banner */
-.upper_banner {
-    position: sticky;
-    top: 0px;
-    z-index: 100;
-
-    padding: 10px 15px;
-    border-radius: 10px;
-    background-color: white;
-    opacity: 0.95;
-
-    border-bottom: 1px solid beige;
-}
-
-.upper_banner_btn {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-/* Edit Panel*/
-.edit_panel {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    margin-bottom: 10px;
-
-    input {
-        height: 2rem;
-        width: 180px;
-        font-size: 1.2rem;
-        background-color: rgba(209, 209, 209, 0.523);
-        border: 2px solid transparent;
-        border-radius: 10px;
-        padding-left: 15px;
-    }
-
-    label,
-    p-button {
-        margin: 10px;
-    }
-}
-
-/* Markers */
-
-.markers_wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    div {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    img {
-        width: 25px;
-        aspect-ratio: 1;
-    }
-}
-
-.elements_icons {
-    max-width: 250px;
 }
 
 /* Safety question Wrapper */

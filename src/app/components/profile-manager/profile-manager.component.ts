@@ -49,13 +49,15 @@ export class ProfileManagerComponent {
     selectedElement: any | undefined;
 
     nrCharactersSelected: number = 0;
-    nrSelectedAnemo: number = 0;
-    nrSelectedCryo: number = 0;
-    nrSelectedDendro: number = 0;
-    nrSelectedElectro: number = 0;
-    nrSelectedGeo: number = 0;
-    nrSelectedHydro: number = 0;
-    nrSelectedPyro: number = 0;
+    elementCounters: { [key: string]: number } = {
+        anemo: 0,
+        cryo: 0,
+        dendro: 0,
+        electro: 0,
+        geo: 0,
+        hydro: 0,
+        pyro: 0,
+    };
 
     constructor(private local: LocalService) {}
 
@@ -74,23 +76,33 @@ export class ProfileManagerComponent {
 
     createProfile() {
         this.characters = this.local.loadLocalItem('characters');
+        // Initialize with default values
         this.currentProfile = {
             id: Date.now().toString(),
             userName: '',
             mainAccount: false,
             traveler: '',
             characters: [],
-        }; // Initialize with default values
+        };
         this.isEditing = false;
         this.currentSection = 'form';
     }
 
     editProfile(profile: Profile) {
-        debugger;
         this.resetCounters();
         this.currentProfile = { ...profile };
         this.characters = profile.characters;
-        this.selectedElement = this.currentProfile.traveler.element;
+        this.characters.forEach((character) => {
+            if (character.selected == true) {
+                this.updateMarkers(character.element, 'add');
+                this.selectCharacterCSS(character);
+            }
+        });
+        this.selectedElement = this.elements.find(
+            (element) => element.name === this.currentProfile.traveler.element
+        );
+
+        console.log('Selected element:', this.selectedElement);
         this.isEditing = true;
         this.currentSection = 'form';
     }
@@ -104,9 +116,10 @@ export class ProfileManagerComponent {
             if (index > -1) {
                 this.profiles[index] = this.currentProfile;
             }
+            this.modifyTraveler();
         } else {
             this.currentProfile.characters = this.characters;
-            debugger;
+            this.modifyTraveler();
             this.profiles.push(this.currentProfile);
         }
         this.saveProfiles();
@@ -115,18 +128,12 @@ export class ProfileManagerComponent {
     }
 
     modifyTraveler() {
-        let updatedCharacterArray = this.currentProfile.characters.filter(
-            (character) => {
-                if (character.element === 'omni') {
-                    character.element = this.selectedElement.name;
-                }
-
-                return character;
-            }
-        );
-
-        console.log(updatedCharacterArray);
-        console.log(this.currentProfile);
+        this.currentProfile.characters.filter((character) => {
+            this.currentProfile.traveler.element = this.selectedElement.name;
+            if (character.name === 'Aether' || character.name === 'Lumine')
+                character.element = this.selectedElement.name;
+            return character;
+        });
     }
 
     confirmDeleteProfile(profile: Profile) {
@@ -143,6 +150,7 @@ export class ProfileManagerComponent {
     cancel() {
         this.currentProfile = null;
         this.currentSection = 'list';
+        this.loadLocal();
     }
 
     selectCharacterCSS(character: Character) {
@@ -150,10 +158,12 @@ export class ProfileManagerComponent {
     }
 
     toggleSelection(character: Character) {
-        console.log(this.characters);
         character.selected = !character.selected;
-
-        this.updateMarkers();
+        if (character.selected == true) {
+            this.updateMarkers(character.element, 'add');
+        } else {
+            this.updateMarkers(character.element, 'subtract');
+        }
     }
 
     isSelected(character: Character): boolean {
@@ -173,43 +183,24 @@ export class ProfileManagerComponent {
         return undefined;
     }
 
-    updateMarkers() {
-        this.nrCharactersSelected = this.selectedCharacters.length;
-        this.resetCounters(); //To avoid multiple counting of the same character
-        this.selectedCharacters.forEach((character) => {
-            switch (character.element) {
-                case 'anemo':
-                    this.nrSelectedAnemo++;
-                    break;
-                case 'cryo':
-                    this.nrSelectedCryo++;
-                    break;
-                case 'dendro':
-                    this.nrSelectedDendro++;
-                    break;
-                case 'electro':
-                    this.nrSelectedElectro++;
-                    break;
-                case 'geo':
-                    this.nrSelectedGeo++;
-                    break;
-                case 'hydro':
-                    this.nrSelectedHydro++;
-                    break;
-                case 'pyro':
-                    this.nrSelectedPyro++;
-                    break;
+    updateMarkers(element: string, action: string) {
+        if (this.elementCounters[element] !== undefined) {
+            if (action === 'add') {
+                this.elementCounters[element]++;
+            } else if (action === 'subtract') {
+                this.elementCounters[element]--;
             }
-        });
+        }
     }
 
-    resetCounters() {
-        this.nrSelectedAnemo = 0;
-        this.nrSelectedCryo = 0;
-        this.nrSelectedDendro = 0;
-        this.nrSelectedElectro = 0;
-        this.nrSelectedGeo = 0;
-        this.nrSelectedHydro = 0;
-        this.nrSelectedPyro = 0;
+    resetCounters(): void {
+        for (let key in this.elementCounters) {
+            if (this.elementCounters.hasOwnProperty(key)) {
+                this.elementCounters[key] = 0;
+            }
+        }
+
+        // Reset the total character selected counter
+        this.nrCharactersSelected = 0;
     }
 }

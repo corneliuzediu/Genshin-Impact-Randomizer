@@ -12,20 +12,53 @@
             />
         </div>
 
+        <!-- Icon of the element of the Traveler -->
         <ul>
             <li *ngFor="let profile of profiles" class="row align-center gap-1">
                 <div>
-                    <i
-                        *ngIf="!profile.traveler"
-                        class="pi pi-user"
-                        style="font-size: 2.5rem"
-                    ></i>
+                    <div>
+                        <img
+                            *ngIf="profile.traveler.element === 'anemo'"
+                            src="./assets/icons/anemo.svg"
+                        />
+                        <img
+                            *ngIf="profile.traveler.element === 'cryo'"
+                            src="./assets/icons/cryo.svg"
+                        />
+                        <img
+                            *ngIf="profile.traveler.element === 'dendro'"
+                            src="./assets/icons/dendro.svg"
+                        />
+                        <img
+                            *ngIf="profile.traveler.element === 'electro'"
+                            src="./assets/icons/electro.svg"
+                        />
+                        <img
+                            *ngIf="profile.traveler.element === 'geo'"
+                            src="./assets/icons/geo.svg"
+                        />
+                        <img
+                            *ngIf="profile.traveler.element === 'hydro'"
+                            src="./assets/icons/hydro.svg"
+                        />
+                        <img
+                            *ngIf="profile.traveler.element === 'pyro'"
+                            src="./assets/icons/pyro.svg"
+                        />
+                    </div>
+                    <div>
+                        <i
+                            *ngIf="!profile.traveler"
+                            class="pi pi-user"
+                            style="font-size: 2.5rem"
+                        ></i>
 
-                    <img
-                        *ngIf="profile.traveler"
-                        src="{{ profile.traveler.image_src }}"
-                    />
-                    <h3 class="gap-05">{{ profile.userName }}</h3>
+                        <img
+                            *ngIf="profile.traveler"
+                            src="{{ profile.traveler.image_src }}"
+                        />
+                        <h3 class="gap-05">{{ profile.userName }}</h3>
+                    </div>
                 </div>
 
                 <div>
@@ -59,7 +92,7 @@
         <form #profileForm="ngForm" (ngSubmit)="saveProfile()">
             <div class="upper_banner">
                 <div class="edit_panel">
-                    <div>
+                    <div class="name_section">
                         <label for="name">Name:</label>
                         <input
                             [required]="true"
@@ -69,7 +102,9 @@
                             name="name"
                         />
                     </div>
-                    <div class="card flex justify-content-center">
+                    <div
+                        class="card flex justify-content-center traveler_selector_section"
+                    >
                         <div>
                             <label>Traveler: </label>
                             <p-toggleButton
@@ -81,12 +116,12 @@
                         </div>
                         <div>
                             <p-dropdown
-                                name="travelerElement"
+                                name="selectedElement"
                                 [options]="elements"
-                                [(ngModel)]="selectedElement"
                                 optionLabel="name"
-                                placeholder="Element of the Traveler"
-                                required="treu"
+                                placeholder="Element"
+                                required="true"
+                                [(ngModel)]="selectedElement"
                             />
                         </div>
                     </div>
@@ -115,7 +150,15 @@
                 <!-- Markers -->
                 <div
                     class="markers_wrapper gap-2"
-                    *ngIf="nrCharactersSelected !== 0"
+                    *ngIf="
+                        elementCounters['anemo'] != 0 ||
+                        elementCounters['cryo'] != 0 ||
+                        elementCounters['dendro'] != 0 ||
+                        elementCounters['electro'] != 0 ||
+                        elementCounters['geo'] != 0 ||
+                        elementCounters['hydro'] != 0 ||
+                        elementCounters['pyro'] != 0
+                    "
                 >
                     <div>
                         <img
@@ -126,31 +169,31 @@
                     </div>
                     <div>
                         <img src="assets/icons/anemo.svg" alt="" />
-                        <span> {{ nrSelectedAnemo }} </span>
+                        <span> {{ elementCounters["anemo"] }} </span>
                     </div>
                     <div>
                         <img src="assets/icons/cryo.svg" alt="" />
-                        <span> {{ nrSelectedCryo }} </span>
+                        <span> {{ elementCounters["cryo"] }} </span>
                     </div>
                     <div>
                         <img src="assets/icons/dendro.svg" alt="" />
-                        <span> {{ nrSelectedDendro }} </span>
+                        <span> {{ elementCounters["dendro"] }} </span>
                     </div>
                     <div>
                         <img src="assets/icons/electro.svg" alt="" />
-                        <span> {{ nrSelectedElectro }} </span>
+                        <span> {{ elementCounters["electro"] }} </span>
                     </div>
                     <div>
                         <img src="assets/icons/geo.svg" alt="" />
-                        <span> {{ nrSelectedGeo }} </span>
+                        <span> {{ elementCounters["geo"] }} </span>
                     </div>
                     <div>
                         <img src="assets/icons/hydro.svg" alt="" />
-                        <span> {{ nrSelectedHydro }} </span>
+                        <span> {{ elementCounters["hydro"] }} </span>
                     </div>
                     <div>
                         <img src="assets/icons/pyro.svg" alt="" />
-                        <span> {{ nrSelectedPyro }} </span>
+                        <span> {{ elementCounters["pyro"] }} </span>
                     </div>
                 </div>
             </div>
