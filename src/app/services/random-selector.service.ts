@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Profile } from '../../types';
+import { Character, Profile } from '../../types';
 
 @Injectable({
     providedIn: 'root',
@@ -23,74 +23,66 @@ export class RandomSelectorService {
         return items[randomIndex];
     }
 
-    getRandomTeam(obj: { [key: string]: string }, profiles: Profile[]) {
-        for (let key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                console.log(obj[key]);
+    getRandomTeam(obj: { [criteria: string]: string[] }, profiles: Profile[]) {
+        // Backup holder
+        debugger;
+        let holder = [];
+        profiles.forEach((profile) => {
+            this.selectedCharacters = profile.characters.filter(
+                (character) => character.selected
+            );
+            for (let criteria in obj) {
+                if (obj.hasOwnProperty(criteria)) {
+                    const criteriaValues = obj[criteria];
 
-                if (key === 'elements') {
-                    debugger;
-                    const elementValues = Array.isArray(obj[key])
-                        ? obj[key]
-                        : [obj[key]];
-
-                    profiles.forEach((profile) => {
-                        this.selectedCharacters = profile.characters.filter(
-                            (character) =>
-                                elementValues.includes(character.element) // Compare elementValue with character.element
-                        );
-                        console.log(this.selectedCharacters);
-                    });
+                    // Apply the filter cumulatively for each criteria
+                    this.selectedCharacters = this.selectedCharacters.filter(
+                        (character) =>
+                            this.matchesCriteria(
+                                character,
+                                criteria,
+                                criteriaValues
+                            )
+                    );
                 }
             }
-        }
-        // this.getValuesFromKeys(obj);
-        // // Filter selected characters based on the key's value
-        // profiles.forEach((profile) => {
-        //     this.selectedCharacters = profile.characters.filter(
-        //         (character) => character.selected == true
-        //     );
-        //     const availableCharacters = this.selectedCharacters.filter(
-        //         (character) => this.elements.includes(character.element)
-        //     );
-        //     console.log('character: ', availableCharacters);
-        // });
-        // console.log('profile: ', typeof this.selectedCharacters);
 
-        // for (const key in obj) {
-        //     this.selectedCharacters = selectedCharacters.forEach((character.selected) => {
-        //         let elements = obj['elements'];
-        //         console.log('elements', elements);
-        //         // return character.element === element;
-        //     });
-        //     if (obj.hasOwnProperty(key)) {
-        //         this.keys.push(key);
-        //     }
-        // }
+            console.log(
+                'Selected characters after all criteria:',
+                this.selectedCharacters
+            );
 
-        // for (let i = 0; i < this.keys.length; i++) {
-        //     console.log(obj[this.keys[i]]);
-        // }
+            holder.push({
+                userName: profile.userName,
+                characters: this.selectedCharacters,
+            });
+        });
     }
 
-    private getValuesFromKeys<T>(obj: { [key: string]: T }) {
-        for (const key in obj) {
-            this.travelerElement = Object.values(obj['travelerElement']);
-            this.elements = Object.values(obj['elements']);
-            this.weapons = Object.values(obj['weapons']);
-            this.stars = Object.values(obj['stars']);
-            this.locations = Object.values(obj['locations']);
-            this.genres = Object.values(obj['genres']);
-            this.heights = Object.values(obj['heights']);
-            this.archon = Object.values(obj['archon']);
-            // console.log(this.travelerElement);
-            // console.log(this.elements);
-            // console.log(this.weapons);
-            // console.log(this.stars);
-            // console.log(this.locations);
-            // console.log(this.genres);
-            // console.log(this.heights);
-            // console.log(this.archon);
+    private matchesCriteria(
+        character: Character,
+        criteria: string,
+        values: string[]
+    ): boolean {
+        switch (criteria) {
+            case 'elements':
+                return values.includes(character.element);
+            case 'weapons':
+                return values.includes(character.weapon);
+            case 'stars':
+                return values.includes(character.stars);
+            case 'locations':
+                return values.includes(character.location);
+            case 'genres':
+                return values.includes(character.sex);
+            case 'heights':
+                return values.includes(character.height);
+            case 'archon':
+                if (values) {
+                    return character.archon;
+                } else return true;
+            default:
+                return true; // Return true by default if criteria doesn't match any case
         }
     }
 }

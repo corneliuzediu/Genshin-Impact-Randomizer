@@ -31,7 +31,7 @@ export class TeamRandomizerComponent {
     distinctLocations!: any;
     distinctGenres!: any;
     distinctHeights!: any;
-    distinctArchon!: any;
+    arconsOnly: any = false;
 
     //Form
     selectorForm!: FormGroup;
@@ -74,7 +74,7 @@ export class TeamRandomizerComponent {
             locations: this.buildFormArray(this.distinctLocations),
             genres: this.buildFormArray(this.distinctGenres),
             heights: this.buildFormArray(this.distinctHeights),
-            archon: new FormControl(true),
+            archon: new FormControl(this.arconsOnly),
         });
     }
 
@@ -116,59 +116,53 @@ export class TeamRandomizerComponent {
     }
 
     submitForm() {
-        // console.log(this.distinctElements);
-        // console.log(this.distinctWeapons);
-        // console.log(this.distinctStars);
-        // console.log(this.distinctLocations);
-        // console.log(this.distinctGenres);
-        // console.log(this.distinctHeights);
+        let selectedCriteria = this.getSelectedCriteria();
+        console.log(selectedCriteria)
 
-        // console.log(this.selectorForm.controls)
- 
-        this.randomizer.getRandomTeam(this.selectorForm.value, this.profiles);
+        // Pass the selected values to getRandomTeam
+        this.randomizer.getRandomTeam(selectedCriteria, this.profiles);
 
-        // for (let key in this.selectorForm.controls) {
-        //     if (this.selectorForm.controls.hasOwnProperty(key)) {
-        //         const control = this.selectorForm.controls[key];
-        //         // console.log(`${key}:`, control.value);
-        //         switch (key) {
-        //             case 'elements':
-        //                 this.distinctElements = control.value.filter(
-        //                     (element) => element !== 'omni'
-        //                 );
-        //                 console.log(this.distinctElements);
-        //                 break;
-        //             case 'weapons':
-        //                 this.distinctWeapons = control.value;
-        //                 console.log(this.distinctWeapons);
-        //                 break;
-        //             case 'stars':
-        //                 this.distinctStars = control.value;
-        //                 console.log(this.distinctStars);
-        //                 break;
-        //             case 'locations':
-        //                 this.distinctLocations = control.value;
-        //                 console.log(this.distinctLocations);
-        //                 break;
-        //             case 'genres':
-        //                 this.distinctGenres = control.value;
-        //                 console.log(this.distinctGenres);
-        //                 break;
-        //             case 'heights':
-        //                 this.distinctHeights = control.value;
-        //                 console.log(this.distinctHeights);
-        //                 break;
-        //             case 'archon':
-        //                 this.distinctArchon = control.value;
-        //                 console.log(this.distinctArchon);
+    }
 
-        //                 break;
-        //             default:
-        //                 break;
-        //         }
-        //         this.getIndividualElements();
-        //         this.createForm();
-        //     }
-        // }
+    getSelectedCriteria() {
+        const selectedElements = this.getSelectedItems(
+            'elements',
+            this.distinctElements
+        );
+        const selectedWeapons = this.getSelectedItems(
+            'weapons',
+            this.distinctWeapons
+        );
+        const selectedStars = this.getSelectedItems(
+            'stars',
+            this.distinctStars
+        );
+        const selectedLocations = this.getSelectedItems(
+            'locations',
+            this.distinctLocations
+        );
+        const selectedGenres = this.getSelectedItems(
+            'genres',
+            this.distinctGenres
+        );
+        const selectedHeights = this.getSelectedItems(
+            'heights',
+            this.distinctHeights
+        );
+        const selectedArchon = this.selectorForm.get('archon')?.value;
+
+        // Create an object to pass to the getRandomTeam method
+        const selectedValues = {
+            elements: selectedElements,
+            weapons: selectedWeapons,
+            stars: selectedStars,
+            locations: selectedLocations,
+            genres: selectedGenres,
+            heights: selectedHeights,
+            archon: selectedArchon, // assuming this is a boolean
+        };
+
+
+        return selectedValues;
     }
 }
