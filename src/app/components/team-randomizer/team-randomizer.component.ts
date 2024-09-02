@@ -116,49 +116,59 @@ export class TeamRandomizerComponent {
     }
 
     submitForm() {
-        // this.randomizer.getRandomTeam(this.selectorForm.value, this.profiles);
-        for (let key in this.selectorForm.controls) {
-            if (this.selectorForm.controls.hasOwnProperty(key)) {
-                const control = this.selectorForm.controls[key];
-                // console.log(`${key}:`, control.value);
-                switch (key) {
-                    case 'elements':
-                        this.distinctElements = control.value.filter(
-                            (element) => element !== 'omni'
-                        );
-                        console.log(this.distinctElements);
-                        break;
-                    case 'weapons':
-                        this.distinctWeapons = control.value;
-                        console.log(this.distinctWeapons);
-                        break;
-                    case 'stars':
-                        this.distinctStars = control.value;
-                        console.log(this.distinctStars);
-                        break;
-                    case 'locations':
-                        this.distinctLocations = control.value;
-                        console.log(this.distinctLocations);
-                        break;
-                    case 'genres':
-                        this.distinctGenres = control.value;
-                        console.log(this.distinctGenres);
-                        break;
-                    case 'heights':
-                        this.distinctHeights = control.value;
-                        console.log(this.distinctHeights);
-                        break;
-                    case 'archon':
-                        this.distinctArchon = control.value;
-                        console.log(this.distinctArchon);
+        // console.log(this.distinctElements);
+        // console.log(this.distinctWeapons);
+        // console.log(this.distinctStars);
+        // console.log(this.distinctLocations);
+        // console.log(this.distinctGenres);
+        // console.log(this.distinctHeights);
 
-                        break;
-                    default:
-                        break;
-                }
-                this.getIndividualElements();
-                this.createForm();
-            }
-        }
+        // console.log(this.selectorForm.controls)
+ 
+        this.randomizer.getRandomTeam(this.selectorForm.value, this.profiles);
+
+        // for (let key in this.selectorForm.controls) {
+        //     if (this.selectorForm.controls.hasOwnProperty(key)) {
+        //         const control = this.selectorForm.controls[key];
+        //         // console.log(`${key}:`, control.value);
+        //         switch (key) {
+        //             case 'elements':
+        //                 this.distinctElements = control.value.filter(
+        //                     (element) => element !== 'omni'
+        //                 );
+        //                 console.log(this.distinctElements);
+        //                 break;
+        //             case 'weapons':
+        //                 this.distinctWeapons = control.value;
+        //                 console.log(this.distinctWeapons);
+        //                 break;
+        //             case 'stars':
+        //                 this.distinctStars = control.value;
+        //                 console.log(this.distinctStars);
+        //                 break;
+        //             case 'locations':
+        //                 this.distinctLocations = control.value;
+        //                 console.log(this.distinctLocations);
+        //                 break;
+        //             case 'genres':
+        //                 this.distinctGenres = control.value;
+        //                 console.log(this.distinctGenres);
+        //                 break;
+        //             case 'heights':
+        //                 this.distinctHeights = control.value;
+        //                 console.log(this.distinctHeights);
+        //                 break;
+        //             case 'archon':
+        //                 this.distinctArchon = control.value;
+        //                 console.log(this.distinctArchon);
+
+        //                 break;
+        //             default:
+        //                 break;
+        //         }
+        //         this.getIndividualElements();
+        //         this.createForm();
+        //     }
+        // }
     }
 }

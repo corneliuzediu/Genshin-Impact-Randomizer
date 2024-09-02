@@ -23,19 +23,39 @@ export class RandomSelectorService {
         return items[randomIndex];
     }
 
-    getRandomTeam<T>(obj: { [key: string]: T }, profiles: Profile[]) {
-        this.getValuesFromKeys(obj);
-        // Filter selected characters based on the key's value
-        profiles.forEach((profile) => {
-            this.selectedCharacters = profile.characters.filter(
-                (character) => character.selected == true
-            );
-            const availableCharacters = this.selectedCharacters.filter(
-                (character) => this.elements.includes(character.element)
-            );
-            console.log('character: ', availableCharacters);
-        });
-        console.log('profile: ', typeof this.selectedCharacters);
+    getRandomTeam(obj: { [key: string]: string }, profiles: Profile[]) {
+        for (let key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                console.log(obj[key]);
+
+                if (key === 'elements') {
+                    debugger;
+                    const elementValues = Array.isArray(obj[key])
+                        ? obj[key]
+                        : [obj[key]];
+
+                    profiles.forEach((profile) => {
+                        this.selectedCharacters = profile.characters.filter(
+                            (character) =>
+                                elementValues.includes(character.element) // Compare elementValue with character.element
+                        );
+                        console.log(this.selectedCharacters);
+                    });
+                }
+            }
+        }
+        // this.getValuesFromKeys(obj);
+        // // Filter selected characters based on the key's value
+        // profiles.forEach((profile) => {
+        //     this.selectedCharacters = profile.characters.filter(
+        //         (character) => character.selected == true
+        //     );
+        //     const availableCharacters = this.selectedCharacters.filter(
+        //         (character) => this.elements.includes(character.element)
+        //     );
+        //     console.log('character: ', availableCharacters);
+        // });
+        // console.log('profile: ', typeof this.selectedCharacters);
 
         // for (const key in obj) {
         //     this.selectedCharacters = selectedCharacters.forEach((character.selected) => {
@@ -48,9 +68,9 @@ export class RandomSelectorService {
         //     }
         // }
 
-        for (let i = 0; i < this.keys.length; i++) {
-            console.log(obj[this.keys[i]]);
-        }
+        // for (let i = 0; i < this.keys.length; i++) {
+        //     console.log(obj[this.keys[i]]);
+        // }
     }
 
     private getValuesFromKeys<T>(obj: { [key: string]: T }) {
