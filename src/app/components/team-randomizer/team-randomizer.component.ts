@@ -4,6 +4,7 @@ import { LocalService } from '../../services/local.service';
 import { CommonModule } from '@angular/common';
 import { AccordionModule } from 'primeng/accordion';
 import { ButtonModule } from 'primeng/button';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import {
     FormBuilder,
     FormGroup,
@@ -12,19 +13,29 @@ import {
     ReactiveFormsModule,
 } from '@angular/forms';
 import { RandomSelectorService } from '../../services/random-selector.service';
+import { CardModule } from 'primeng/card';
 
 @Component({
     selector: 'app-team-randomizer',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, AccordionModule, ButtonModule],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        AccordionModule,
+        ButtonModule,
+        RadioButtonModule,
+        CardModule,
+    ],
     templateUrl: './team-randomizer.component.html',
     styleUrl: './team-randomizer.component.scss',
 })
 export class TeamRandomizerComponent {
     profiles!: Profile[];
     characters!: Character[];
+    charactersToDisplay: any[] = [];
 
     //Distinct Elements
+    distinctProfiles!: any;
     distinctElements!: any;
     distinctWeapons!: any;
     distinctStars!: any;
@@ -32,6 +43,8 @@ export class TeamRandomizerComponent {
     distinctGenres!: any;
     distinctHeights!: any;
     arconsOnly: any = false;
+    nrOfCharacters: number;
+    slots: [];
 
     //Form
     selectorForm!: FormGroup;
@@ -45,13 +58,8 @@ export class TeamRandomizerComponent {
     ngOnInit() {
         this.profiles = this.local.loadLocalItem('profiles');
         this.characters = this.local.loadLocalItem('characters');
-        this.getIndividualElements();
+        this.getIndividualElements(); // Provides the elements for randering the dinamic form
         this.createForm();
-    }
-
-    getDistinctValues<T>(item: keyof Character): T[] {
-        const values = this.characters.map((character) => character[item]);
-        return [...new Set(values)];
     }
 
     getIndividualElements() {
@@ -61,6 +69,11 @@ export class TeamRandomizerComponent {
         this.distinctLocations = this.getDistinctValues<string>('location');
         this.distinctGenres = this.getDistinctValues<string>('sex');
         this.distinctHeights = this.getDistinctValues<string>('height');
+    }
+
+    getDistinctValues<T>(item: keyof Character): T[] {
+        const values = this.characters.map((character) => character[item]);
+        return [...new Set(values)];
     }
 
     createForm(): void {
@@ -75,6 +88,7 @@ export class TeamRandomizerComponent {
             genres: this.buildFormArray(this.distinctGenres),
             heights: this.buildFormArray(this.distinctHeights),
             archon: new FormControl(this.arconsOnly),
+            nrOfCharacters: new FormControl(2),
         });
     }
 
@@ -108,23 +122,19 @@ export class TeamRandomizerComponent {
         formArray.controls.forEach((control) => control.setValue(isChecked));
     }
 
-    getSelectedItems(formArrayName: string, items: string[]): string[] {
-        const formArray = this.selectorForm.get(formArrayName) as FormArray;
-        return formArray.controls
-            .map((control, i) => (control.value ? items[i] : null))
-            .filter((value) => value !== null);
-    }
-
     submitForm() {
+        console.log(this.nrOfCharacters);
         let selectedCriteria = this.getSelectedCriteria();
-        console.log(selectedCriteria)
+        // Pass the selected values to randomizer Service
 
-        // Pass the selected values to getRandomTeam
-        this.randomizer.getRandomTeam(selectedCriteria, this.profiles);
-
+        this.charactersToDisplay = this.randomizer.getRandomTeam(
+            selectedCriteria,
+            this.profiles
+        );
     }
 
     getSelectedCriteria() {
+        const selectedProfiles = this.getSelectedProfiles();
         const selectedElements = this.getSelectedItems(
             'elements',
             this.distinctElements
@@ -150,19 +160,41 @@ export class TeamRandomizerComponent {
             this.distinctHeights
         );
         const selectedArchon = this.selectorForm.get('archon')?.value;
+        const selectedNrOfCharacters =
+            this.selectorForm.get('nrOfCharacters')?.value;
+        this.nrOfCharacters = selectedNrOfCharacters;
 
-        // Create an object to pass to the getRandomTeam method
         const selectedValues = {
+            profiles: selectedProfiles,
             elements: selectedElements,
             weapons: selectedWeapons,
             stars: selectedStars,
             locations: selectedLocations,
             genres: selectedGenres,
             heights: selectedHeights,
-            archon: selectedArchon, // assuming this is a boolean
+            archon: selectedArchon,
+            nrOfCharacters: selectedNrOfCharacters,
         };
 
-
         return selectedValues;
+    }
+
+    getSelectedProfiles() {
+        const checkedProfiles = this.selectorForm.controls['profiles'].value;
+        const stringProfiles = checkedProfiles.filter(
+            (value: any) => typeof value === 'string'
+        );
+        return stringProfiles;
+    }
+
+    getSelectedItems(formArrayName: string, items: string[]): string[] {
+        const formArray = this.selectorForm.get(formArrayName) as FormArray;
+        return formArray.controls
+            .map((control, i) => (control.value ? items[i] : null))
+            .filter((value) => value !== null);
+    }
+
+    newArray(a, b) {
+        return new Array(a - b);
     }
 }

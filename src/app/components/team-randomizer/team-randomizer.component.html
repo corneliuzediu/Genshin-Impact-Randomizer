@@ -1,3 +1,35 @@
+<div class="team_randomizer_display" *ngIf="charactersToDisplay?.length > 0">
+    <div *ngFor="let profile of charactersToDisplay">
+        <h2>{{ profile.userName }}</h2>
+        <div>
+            <p-card
+                *ngFor="let character of profile.characters"
+                class="character_card"
+            >
+                <div *ngIf="character.image_src">
+                    <img
+                        [src]="character.image_src"
+                        [alt]="'Image of ' + character.name"
+                    />
+                </div>
+                <h4>{{ character.name }}</h4>
+            </p-card>
+            <p-card
+                *ngFor="
+                    let card of newArray(
+                        nrOfCharacters,
+                        profile.characters.length
+                    )
+                "
+                class="character_card"
+            >
+                <div>No other character fits the crietrias</div>
+                <!-- Your card content here -->
+            </p-card>
+        </div>
+    </div>
+</div>
+
 <p-accordion
     [activeIndex]="0"
     class="accordation_wrapper"
@@ -8,6 +40,19 @@
         [formGroup]="selectorForm"
         (ngSubmit)="$event.preventDefault(); submitForm()"
     >
+        <div
+            class="dinamic_wrapper get_team_btn"
+            *ngIf="charactersToDisplay.length !== 0"
+        >
+            <p-button
+                label="Get Random Team"
+                class="btn btn-primary"
+                icon="pi pi-users"
+                type="submit"
+                [disabled]="selectorForm.invalid"
+            >
+            </p-button>
+        </div>
         <!-- Tab 1 - Traveler Name -->
         <p-accordionTab header="Profiles" iconPos="end">
             <div formArrayName="profiles" class="dinamic_wrapper">
@@ -166,13 +211,42 @@
         <p-accordionTab header="Archons Only" iconPos="end" class="mb-3">
             <div class="dinamic_wrapper">
                 <label>
-                    <input type="checkbox" formControlName="archon" /> 
+                    <input type="checkbox" formControlName="archon" />
                     Archons Only
                 </label>
             </div>
         </p-accordionTab>
 
-        <div class="dinamic_wrapper">
+        <!-- Tab 9 - Nr of characters per account-->
+        <p-accordionTab header="Nr of characters" iconPos="end" class="mb-3">
+            <div class="dinamic_wrapper">
+                <div class="flex align-items-center">
+                    <p-radioButton
+                        formControlName="nrOfCharacters"
+                        name="nrOfCharacters"
+                        [value]="2"
+                        inputId="2"
+                        
+                    />
+                    <label for="ingredient1" class="ml-2"> 2 </label>
+                </div>
+
+                <div class="flex align-items-center">
+                    <p-radioButton
+                        formControlName="nrOfCharacters"
+                        name="nrOfCharacters"
+                        [value]="4"
+                        inputId="4"
+                    />
+                    <label for="ingredient2" class="ml-2"> 4 </label>
+                </div>
+            </div>
+        </p-accordionTab>
+
+        <div
+            class="dinamic_wrapper get_team_btn"
+            *ngIf="charactersToDisplay.length === 0"
+        >
             <p-button
                 label="Get Random Team"
                 class="btn btn-primary"

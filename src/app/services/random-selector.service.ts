@@ -5,16 +5,10 @@ import { Character, Profile } from '../../types';
     providedIn: 'root',
 })
 export class RandomSelectorService {
-    private keys: string[] = [];
     private selectedCharacters: any;
-    private elements: any;
-    private travelerElement: any;
-    private weapons: any;
-    private stars: any;
-    private locations: any;
-    private genres: any;
-    private heights: any;
-    private archon: any;
+    private holder = [];
+    private nrOfCharacters: any;
+    private profileWithPreviousCharacters = [];
 
     constructor() {}
 
@@ -24,39 +18,43 @@ export class RandomSelectorService {
     }
 
     getRandomTeam(obj: { [criteria: string]: string[] }, profiles: Profile[]) {
-        // Backup holder
-        debugger;
-        let holder = [];
-        profiles.forEach((profile) => {
-            this.selectedCharacters = profile.characters.filter(
-                (character) => character.selected
-            );
-            for (let criteria in obj) {
-                if (obj.hasOwnProperty(criteria)) {
-                    const criteriaValues = obj[criteria];
+        this.holder = [];
 
-                    // Apply the filter cumulatively for each criteria
-                    this.selectedCharacters = this.selectedCharacters.filter(
-                        (character) =>
-                            this.matchesCriteria(
-                                character,
-                                criteria,
-                                criteriaValues
-                            )
-                    );
+        profiles.forEach((profile) => {
+            if (obj['profiles'].includes(profile.userName)) {
+                this.selectedCharacters = profile.characters.filter(
+                    (character) => character.selected
+                );
+                //Apply filtering based on criteria
+                for (let criteria in obj) {
+                    if (obj.hasOwnProperty(criteria)) {
+                        const criteriaValues = obj[criteria];
+                        if (criteria === 'nrOfCharacters') {
+                            this.nrOfCharacters = obj[criteria];
+                        }
+
+                        // Apply the filter cumulatively for each criteria
+                        this.selectedCharacters =
+                            this.selectedCharacters.filter((character) =>
+                                this.matchesCriteria(
+                                    character,
+                                    criteria,
+                                    criteriaValues
+                                )
+                            );
+                    }
+                }
+
+                if (this.selectedCharacters.length > 0) {
+                    this.holder.push({
+                        userName: profile.userName,
+                        characters: this.selectedCharacters,
+                    });
                 }
             }
-
-            console.log(
-                'Selected characters after all criteria:',
-                this.selectedCharacters
-            );
-
-            holder.push({
-                userName: profile.userName,
-                characters: this.selectedCharacters,
-            });
         });
+
+        return this.getRandomCharactersPerAccount();
     }
 
     private matchesCriteria(
@@ -84,5 +82,46 @@ export class RandomSelectorService {
             default:
                 return true; // Return true by default if criteria doesn't match any case
         }
+    }
+
+    getRandomCharactersPerAccount() {
+        let profilesWithRandomCharacters = [];
+        console.log('in: ', this.profileWithPreviousCharacters);
+
+        this.holder.forEach((profile) => {
+            let tempCharacters = [...profile.characters];
+
+            this.profileWithPreviousCharacters.forEach((previousProfile) => {
+                if (profile.userName === previousProfile.userName) {
+                    tempCharacters = tempCharacters.filter(
+                        (character) =>
+                            !previousProfile.characters.includes(character)
+                    );
+                }
+            });
+
+            let randomSelectedCharacters = [];
+
+            for (let i = 0; i < this.nrOfCharacters; i++) {
+                let randomSelectedCharacter =
+                    this.getRandomItem(tempCharacters);
+                if (randomSelectedCharacter) {
+                    randomSelectedCharacters.push(randomSelectedCharacter);
+
+                    // Remove selected character from temporary array
+                    tempCharacters = tempCharacters.filter(
+                        (character) => character !== randomSelectedCharacter
+                    );
+                }
+            }
+
+            profilesWithRandomCharacters.push({
+                userName: profile.userName,
+                characters: randomSelectedCharacters,
+            });
+        });
+        this.profileWithPreviousCharacters = profilesWithRandomCharacters;
+
+        return profilesWithRandomCharacters;
     }
 }
