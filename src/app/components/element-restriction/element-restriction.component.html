@@ -1,1 +1,135 @@
-<p>No Selected Profile for Element Restriction</p>
+<!--
+- Checkbox section where the player selects the restrictive elements and how many characters per profile.
+- Checkbox section where the player selects the profiles from where to select the characters
+- Display section on the characters that have been selected. 
+-->
+
+<!-- Display section -->
+<div class="wrapper">
+    <div
+        class="team_randomizer_display"
+        *ngIf="charactersToDisplay?.length > 0"
+    >
+        <div *ngFor="let profile of charactersToDisplay">
+            <h2>{{ profile.userName }}</h2>
+            <div>
+                <p-card
+                    *ngFor="let character of profile.characters"
+                    class="character_card"
+                >
+                    <div *ngIf="character.image_src">
+                        <img
+                            [src]="character.image_src"
+                            [alt]="'Image of ' + character.name"
+                        />
+                    </div>
+                    <h4>{{ character.name }}</h4>
+                </p-card>
+                <p-card
+                    *ngFor="
+                        let card of getNrMaxCharacters(
+                            nrOfCharacters,
+                            profile.characters.length
+                        )
+                    "
+                    class="character_card"
+                >
+                    <div>No other character fits the criterias</div>
+                    <!-- Your card content here -->
+                </p-card>
+            </div>
+        </div>
+    </div>
+
+    <form
+        [formGroup]="selectorForm"
+        (ngSubmit)="$event.preventDefault(); submitForm()"
+    >
+        <div
+            class="dinamic_wrapper get_team_btn"
+            *ngIf="charactersToDisplay.length !== 0"
+        >
+            <p-button
+                label="Get Random Team"
+                class="btn btn-primary"
+                icon="pi pi-users"
+                type="submit"
+                [disabled]="selectorForm.invalid"
+            >
+            </p-button>
+        </div>
+        <!-- Tab 1 - Traveler Name -->
+        <div formArrayName="profiles" class="dinamic_wrapper">
+            <div class="dinamic_randering">
+                <h2>Players:</h2>
+                <div>
+                    <div *ngFor="let profile of profiles; let i = index">
+                        <label>
+                            {{ profile.userName }}
+                            <input
+                                type="checkbox"
+                                value="{{ profile.userName }}"
+                                [formControlName]="i"
+                            />
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2 - Elements -->
+        <div formArrayName="elements" class="dinamic_wrapper">
+            <div class="dinamic_randering">
+                <h2>Restricted Element</h2>
+                <div>
+                    <div *ngFor="let element of allElements; let i = index">
+                        <label>
+                            {{ element }}
+                            <input type="checkbox" [formControlName]="i" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nr of characters per account-->
+        <div class="dinamic_wrapper radio_btns_wrapper">
+            <h2>Nr. of Characters</h2>
+            <div>
+                <div class="flex align-items-center">
+                    <p-radioButton
+                        formControlName="nrOfCharacters"
+                        name="nrOfCharacters"
+                        [value]="2"
+                        inputId="2"
+                    />
+                    <label for="ingredient1" class="ml-2"> 2 </label>
+                </div>
+
+                <div class="flex align-items-center">
+                    <p-radioButton
+                        formControlName="nrOfCharacters"
+                        name="nrOfCharacters"
+                        [value]="4"
+                        inputId="4"
+                    />
+                    <label for="ingredient2" class="ml-2"> 4 </label>
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="dinamic_wrapper get_team_btn"
+            *ngIf="charactersToDisplay.length === 0"
+        >
+            <p-button
+                label="Get Random Team"
+                class="btn btn-primary"
+                icon="pi pi-users"
+                type="submit"
+                [disabled]="selectorForm.invalid"
+            >
+            </p-button>
+        </div>
+    </form>
+</div>

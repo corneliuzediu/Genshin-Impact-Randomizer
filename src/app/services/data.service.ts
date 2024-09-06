@@ -6,7 +6,8 @@ import {
     HttpParams,
 } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
-import { format } from 'path';
+import { Character } from '../../types';
+import { FormArray } from '@angular/forms';
 
 @Injectable({
     providedIn: 'root',
@@ -52,5 +53,40 @@ export class DataService {
                 'Can not retrieve data from the server. Please try again'
             );
         });
+    }
+
+    buildFormArray(fb, items: string[]): FormArray {
+        const controls = items.map((item) => item);
+        return fb.array(controls);
+    }
+
+    buildFormArrayUnchecked(fb, items: string[]): FormArray {
+        const controls = items.map(() => fb.control(false));
+        return fb.array(controls);
+    }
+
+
+    getDistinctValues<T>(characters: Character[], item: keyof Character): T[] {
+        const values = characters.map((character) => character[item]);
+        return [...new Set(values)];
+    }
+
+    getSelectedProfiles(selectorForm) {
+        const checkedProfiles = selectorForm.controls['profiles'].value;
+        const stringProfiles = checkedProfiles.filter(
+            (value: any) => typeof value === 'string'
+        );
+        return stringProfiles;
+    }
+
+    getSelectedItems(
+        formArrayName: string,
+        items: string[],
+        selectorForm
+    ): string[] {
+        const formArray = selectorForm.get(formArrayName) as FormArray;
+        return formArray.controls
+            .map((control, i) => (control.value ? items[i] : null))
+            .filter((value) => value !== null);
     }
 }

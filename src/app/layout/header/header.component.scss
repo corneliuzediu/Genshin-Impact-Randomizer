@@ -16,7 +16,17 @@
         align-self: center;
     }
 }
+/* Topbar Classes  */
+.topbar {
+    display: flex;
+    flex-wrap: wrap;
 
+    @media (max-width: 1500px) {
+        display: none;
+    }
+}
+
+/*  Sidebar Classes  */
 .sidebar {
     h3 {
         padding: 15px 15px;
@@ -28,6 +38,9 @@
 }
 
 p-button {
+    @media (min-width: 1499px) {
+        display: none;
+    }
     position: absolute;
     top: 50px;
     right: 50px;

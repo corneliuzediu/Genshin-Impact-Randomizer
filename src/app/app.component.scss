@@ -1,18 +1,10 @@
 .wrapper {
-    height: auto;
+    height: 100%;
     padding: 20px;
-    width: 100%;
-
-    display: flex;
-    flex-wrap: wrap;
-    flex-grow: 1;
-    box-sizing: border-box;
+    margin-inline: 20px;
 }
 
 .router-outlet {
     width: 100%;
-    height: 500px;
+    min-height: 500px;
 }
-
-
-

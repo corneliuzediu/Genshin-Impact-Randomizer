@@ -16,14 +16,14 @@
             </p-card>
             <p-card
                 *ngFor="
-                    let card of newArray(
+                    let card of getNrMaxCharacters(
                         nrOfCharacters,
                         profile.characters.length
                     )
                 "
                 class="character_card"
             >
-                <div>No other character fits the crietrias</div>
+                <div>No other character fits the criterias</div>
                 <!-- Your card content here -->
             </p-card>
         </div>
@@ -31,18 +31,29 @@
 </div>
 
 <p-accordion
-    [activeIndex]="0"
+    [(activeIndex)]="activeIndex"
+    [multiple]="true"
     class="accordation_wrapper"
     expandIcon="pi pi-plus"
     collapseIcon="pi pi-minus"
 >
+    <div>
+        <p-button (click)="toogleAccordation()">
+            <span *ngIf="!toogleAccordationBoolean" class="pi pi-list">
+                Open All Tabs</span
+            >
+            <span *ngIf="toogleAccordationBoolean" class="pi pi-sort-up">
+                Close All Tabs</span
+            >
+        </p-button>
+    </div>
     <form
         [formGroup]="selectorForm"
         (ngSubmit)="$event.preventDefault(); submitForm()"
     >
         <div
             class="dinamic_wrapper get_team_btn"
-            *ngIf="charactersToDisplay.length !== 0"
+            *ngIf="charactersToDisplay.length !== 0 || toogleAccordationBoolean"
         >
             <p-button
                 label="Get Random Team"
@@ -56,10 +67,6 @@
         <!-- Tab 1 - Traveler Name -->
         <p-accordionTab header="Profiles" iconPos="end">
             <div formArrayName="profiles" class="dinamic_wrapper">
-                <label>
-                    <input type="checkbox" />
-                    Select All Profiles
-                </label>
                 <div class="dinamic_randering">
                     <div *ngFor="let profile of profiles; let i = index">
                         <label>
@@ -85,10 +92,6 @@
         <!-- Tab 2 - Elements -->
         <p-accordionTab header="Elements" iconPos="end">
             <div formArrayName="elements" class="dinamic_wrapper">
-                <label>
-                    <input type="checkbox" />
-                    Select All Elements
-                </label>
                 <div class="dinamic_randering">
                     <div
                         *ngFor="let element of distinctElements; let i = index"
@@ -115,10 +118,6 @@
         <!-- Tab 3 - Weapons -->
         <p-accordionTab header="Weapons" iconPos="end">
             <div formArrayName="weapons" class="dinamic_wrapper">
-                <label>
-                    <input type="checkbox" />
-                    Select All Weapons
-                </label>
                 <div class="dinamic_randering">
                     <div *ngFor="let weapon of distinctWeapons; let i = index">
                         <label>
@@ -133,10 +132,6 @@
         <!-- Tab 4 - Stars -->
         <p-accordionTab header="Stars" iconPos="end">
             <div formArrayName="stars" class="dinamic_wrapper">
-                <label>
-                    <input type="checkbox" />
-                    Select All Stars
-                </label>
                 <div class="dinamic_randering">
                     <div *ngFor="let star of distinctStars; let i = index">
                         <label>
@@ -151,10 +146,6 @@
         <!-- Tab 5 - Location -->
         <p-accordionTab header="Location" iconPos="end">
             <div formArrayName="locations" class="dinamic_wrapper">
-                <label>
-                    <input type="checkbox" />
-                    Select All Locationa
-                </label>
                 <div class="dinamic_randering">
                     <div
                         *ngFor="
@@ -174,10 +165,6 @@
         <!-- Tab 6 - Genres -->
         <p-accordionTab header="Genre" iconPos="end">
             <div formArrayName="genres" class="dinamic_wrapper">
-                <label>
-                    <input type="checkbox" />
-                    Select All Genres
-                </label>
                 <div class="dinamic_randering">
                     <div *ngFor="let genres of distinctGenres; let i = index">
                         <label>
@@ -192,10 +179,6 @@
         <!-- Tab 7 - Heights -->
         <p-accordionTab header="Height" iconPos="end">
             <div formArrayName="heights" class="dinamic_wrapper">
-                <label>
-                    <input type="checkbox" />
-                    Select All Weapons
-                </label>
                 <div class="dinamic_randering">
                     <div *ngFor="let height of distinctHeights; let i = index">
                         <label>
@@ -209,7 +192,7 @@
 
         <!-- Tab 8 - Archon -->
         <p-accordionTab header="Archons Only" iconPos="end" class="mb-3">
-            <div class="dinamic_wrapper">
+            <div class="dinamic_wrapper accordation_tabs">
                 <label>
                     <input type="checkbox" formControlName="archon" />
                     Archons Only
@@ -219,14 +202,13 @@
 
         <!-- Tab 9 - Nr of characters per account-->
         <p-accordionTab header="Nr of characters" iconPos="end" class="mb-3">
-            <div class="dinamic_wrapper">
+            <div class="dinamic_wrapper accordation_tabs">
                 <div class="flex align-items-center">
                     <p-radioButton
                         formControlName="nrOfCharacters"
                         name="nrOfCharacters"
                         [value]="2"
                         inputId="2"
-                        
                     />
                     <label for="ingredient1" class="ml-2"> 2 </label>
                 </div>

@@ -14,6 +14,7 @@ import {
 } from '@angular/forms';
 import { RandomSelectorService } from '../../services/random-selector.service';
 import { CardModule } from 'primeng/card';
+import { DataService } from '../../services/data.service';
 
 @Component({
     selector: 'app-team-randomizer',
@@ -35,7 +36,6 @@ export class TeamRandomizerComponent {
     charactersToDisplay: any[] = [];
 
     //Distinct Elements
-    distinctProfiles!: any;
     distinctElements!: any;
     distinctWeapons!: any;
     distinctStars!: any;
@@ -48,11 +48,14 @@ export class TeamRandomizerComponent {
 
     //Form
     selectorForm!: FormGroup;
+    toogleAccordationBoolean: boolean = false;
+    activeIndex: any = 0;
 
     constructor(
         private local: LocalService,
         private fb: FormBuilder,
-        private randomizer: RandomSelectorService
+        private randomizer: RandomSelectorService,
+        private data: DataService
     ) {}
 
     ngOnInit() {
@@ -60,41 +63,54 @@ export class TeamRandomizerComponent {
         this.characters = this.local.loadLocalItem('characters');
         this.getIndividualElements(); // Provides the elements for randering the dinamic form
         this.createForm();
+        this.toogleAccordation();
     }
 
     getIndividualElements() {
-        this.distinctElements = this.getDistinctValues<string>('element');
-        this.distinctWeapons = this.getDistinctValues<string>('weapon');
-        this.distinctStars = this.getDistinctValues<string>('stars');
-        this.distinctLocations = this.getDistinctValues<string>('location');
-        this.distinctGenres = this.getDistinctValues<string>('sex');
-        this.distinctHeights = this.getDistinctValues<string>('height');
-    }
-
-    getDistinctValues<T>(item: keyof Character): T[] {
-        const values = this.characters.map((character) => character[item]);
-        return [...new Set(values)];
+        this.distinctElements = this.data.getDistinctValues<string>(
+            this.characters,
+            'element'
+        );
+        this.distinctWeapons = this.data.getDistinctValues<string>(
+            this.characters,
+            'weapon'
+        );
+        this.distinctStars = this.data.getDistinctValues<string>(
+            this.characters,
+            'stars'
+        );
+        this.distinctLocations = this.data.getDistinctValues<string>(
+            this.characters,
+            'location'
+        );
+        this.distinctGenres = this.data.getDistinctValues<string>(
+            this.characters,
+            'sex'
+        );
+        this.distinctHeights = this.data.getDistinctValues<string>(
+            this.characters,
+            'height'
+        );
     }
 
     createForm(): void {
         this.selectorForm = this.fb.group({
-            profiles: this.buildFormArray(
+            profiles: this.data.buildFormArray(
+                this.fb,
                 this.profiles.map((profile) => profile.userName)
             ),
-            elements: this.buildFormArray(this.distinctElements),
-            weapons: this.buildFormArray(this.distinctWeapons),
-            stars: this.buildFormArray(this.distinctStars),
-            locations: this.buildFormArray(this.distinctLocations),
-            genres: this.buildFormArray(this.distinctGenres),
-            heights: this.buildFormArray(this.distinctHeights),
+            elements: this.data.buildFormArray(this.fb, this.distinctElements),
+            weapons: this.data.buildFormArray(this.fb, this.distinctWeapons),
+            stars: this.data.buildFormArray(this.fb, this.distinctStars),
+            locations: this.data.buildFormArray(
+                this.fb,
+                this.distinctLocations
+            ),
+            genres: this.data.buildFormArray(this.fb, this.distinctGenres),
+            heights: this.data.buildFormArray(this.fb, this.distinctHeights),
             archon: new FormControl(this.arconsOnly),
             nrOfCharacters: new FormControl(2),
         });
-    }
-
-    buildFormArray(items: string[]): FormArray {
-        const controls = items.map((item) => item);
-        return this.fb.array(controls);
     }
 
     handleCheckboxChange(
@@ -117,13 +133,8 @@ export class TeamRandomizerComponent {
         }
     }
 
-    selectAll(formArrayName: string, isChecked: boolean): void {
-        const formArray = this.selectorForm.get(formArrayName) as FormArray;
-        formArray.controls.forEach((control) => control.setValue(isChecked));
-    }
 
     submitForm() {
-        console.log(this.nrOfCharacters);
         let selectedCriteria = this.getSelectedCriteria();
         // Pass the selected values to randomizer Service
 
@@ -134,67 +145,56 @@ export class TeamRandomizerComponent {
     }
 
     getSelectedCriteria() {
-        const selectedProfiles = this.getSelectedProfiles();
-        const selectedElements = this.getSelectedItems(
-            'elements',
-            this.distinctElements
-        );
-        const selectedWeapons = this.getSelectedItems(
-            'weapons',
-            this.distinctWeapons
-        );
-        const selectedStars = this.getSelectedItems(
-            'stars',
-            this.distinctStars
-        );
-        const selectedLocations = this.getSelectedItems(
-            'locations',
-            this.distinctLocations
-        );
-        const selectedGenres = this.getSelectedItems(
-            'genres',
-            this.distinctGenres
-        );
-        const selectedHeights = this.getSelectedItems(
-            'heights',
-            this.distinctHeights
-        );
-        const selectedArchon = this.selectorForm.get('archon')?.value;
-        const selectedNrOfCharacters =
-            this.selectorForm.get('nrOfCharacters')?.value;
-        this.nrOfCharacters = selectedNrOfCharacters;
-
         const selectedValues = {
-            profiles: selectedProfiles,
-            elements: selectedElements,
-            weapons: selectedWeapons,
-            stars: selectedStars,
-            locations: selectedLocations,
-            genres: selectedGenres,
-            heights: selectedHeights,
-            archon: selectedArchon,
-            nrOfCharacters: selectedNrOfCharacters,
+            profiles: this.data.getSelectedProfiles(this.selectorForm),
+            elements: this.data.getSelectedItems(
+                'elements',
+                this.distinctElements,
+                this.selectorForm
+            ),
+            weapons: this.data.getSelectedItems(
+                'weapons',
+                this.distinctWeapons,
+                this.selectorForm
+            ),
+            stars: this.data.getSelectedItems(
+                'stars',
+                this.distinctStars,
+                this.selectorForm
+            ),
+            locations: this.data.getSelectedItems(
+                'locations',
+                this.distinctLocations,
+                this.selectorForm
+            ),
+            genres: this.data.getSelectedItems(
+                'genres',
+                this.distinctGenres,
+                this.selectorForm
+            ),
+            heights: this.data.getSelectedItems(
+                'heights',
+                this.distinctHeights,
+                this.selectorForm
+            ),
+            archon: this.selectorForm.get('archon')?.value,
+            nrOfCharacters: this.selectorForm.get('nrOfCharacters')?.value,
         };
+        this.nrOfCharacters = this.selectorForm.get('nrOfCharacters')?.value;
 
         return selectedValues;
     }
 
-    getSelectedProfiles() {
-        const checkedProfiles = this.selectorForm.controls['profiles'].value;
-        const stringProfiles = checkedProfiles.filter(
-            (value: any) => typeof value === 'string'
-        );
-        return stringProfiles;
+    getNrMaxCharacters(nrOfCharacters: number, nrAvailableCharacters: number) {
+        return new Array(nrOfCharacters - nrAvailableCharacters);
     }
 
-    getSelectedItems(formArrayName: string, items: string[]): string[] {
-        const formArray = this.selectorForm.get(formArrayName) as FormArray;
-        return formArray.controls
-            .map((control, i) => (control.value ? items[i] : null))
-            .filter((value) => value !== null);
-    }
-
-    newArray(a, b) {
-        return new Array(a - b);
+    toogleAccordation() {
+        this.toogleAccordationBoolean = !this.toogleAccordationBoolean;
+        if (this.toogleAccordationBoolean) {
+            this.activeIndex = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+        } else {
+            this.activeIndex = [];
+        }
     }
 }

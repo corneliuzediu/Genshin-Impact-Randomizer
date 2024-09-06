@@ -1,12 +1,38 @@
 span.p-button-label {
-    font-size: 1.1rem ;
+    font-size: 1.1rem;
 }
 
 .p-button.p-button-text {
-    width: 100% ;
+    width: 100%;
 }
 
-.p-card{
+.p-card {
     height: 100%;
 }
 
+.p-tabview {
+    width: 100%;
+}
+
+.p-tabview-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.p-accordion {
+    width: 100%;
+}
+
+.p-accordion-content {
+    padding: 0;
+
+    div {
+        margin: 0;
+    }
+}
+
+.p-accordion-header-link {
+    padding-block: 0.8rem;
+}

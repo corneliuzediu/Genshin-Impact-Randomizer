@@ -6,27 +6,37 @@
 }
 
 /* Accordation / Form */
-.accordation_wrapper{
+.accordation_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     width: 100%;
 
+    div {
+        display: flex;
+        justify-content: flex-end;
+    }
 }
+
+form {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
 .dinamic_wrapper {
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
-    width: 100%;
-    gap: 1rem;
-
-    .dinamic_randering {
-        gap: 2rem;
-    }
 }
 
 .dinamic_randering {
     display: flex;
-    justify-content: center;
+    justify-content: center !important;
+    align-items: center;
     flex-wrap: wrap;
     max-width: 40rem;
+    margin: 1rem;
+    gap: 1rem;
 
     .ng-star-inserted {
         display: flex;
@@ -47,8 +57,23 @@
     }
 }
 
-.get_team_btn{
-    margin: 2rem;
+.accordation_tabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: center !important;
+    margin: 1rem;
+    gap: 1rem;
+
+    label {
+        padding-inline: 0.5rem;
+    }
+    label:hover {
+        font-weight: 700;
+    }
+}
+
+.get_team_btn {
+    margin: 1rem;
 }
 
 /* Team Randomizer Display */
@@ -60,9 +85,9 @@
     gap: 0.5rem;
     max-width: 60rem;
 
-    @media (max-height:1500px) {
-        flex-direction: row;;
-        div.div{
+    @media (max-height: 1500px) {
+        flex-direction: row;
+        div.div {
             flex-direction: row;
         }
     }

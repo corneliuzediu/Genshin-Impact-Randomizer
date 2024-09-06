@@ -9,7 +9,7 @@
         <div class="row">
             <a routerLink="" class="p-button font-bold"> Home </a>
         </div>
-        <div class="row">
+        <div class="row" pTooltip="Create profile">
             <a routerLink="profile" class="p-button font-bold">
                 Profile Manager
             </a>
@@ -20,25 +20,34 @@
             </a>
         </div>
         <div class="row">
-            <a routerLink="/team_picker" class="p-button font-bold">
-                Team Picker
-            </a>
-        </div>
-        <div class="row">
             <a routerLink="/element_restriction" class="p-button font-bold">
                 Element Restriction
             </a>
         </div>
         <div class="row">
             <a routerLink="/weekly_boss" class="p-button font-bold">
-                Weekly Randomizer
+                Weekly Boss Randomizer
             </a>
         </div>
         <div class="row">
             <a routerLink="/open_boss" class="p-button font-bold">
-                Boss Randomizer
+                Open World Boss Randomizer
             </a>
         </div>
     </div>
 </p-sidebar>
-<p-button class="sidebar-btn" (onClick)="toggleSidebar()" icon="pi pi-arrow-left"></p-button>
+<p-button
+    class="sidebar-btn"
+    (onClick)="toggleSidebar()"
+    icon="pi pi-arrow-left"
+></p-button>
+
+<p-tabView class="topbar" (onChange)="navigateTo($event.index)">
+    <p-tabPanel header="Home" class="row" value="/profile"> </p-tabPanel>
+    <p-tabPanel header="Profile Manager" class="row" value="/profile">
+    </p-tabPanel>
+    <p-tabPanel header="Team Randomizer" class="row"> </p-tabPanel>
+    <p-tabPanel header="Element Restriction" class="row"> </p-tabPanel>
+    <p-tabPanel header="Weekly Boss Randomizer" class="row"> </p-tabPanel>
+    <p-tabPanel header="Open World Boss Randomizer" class="row"> </p-tabPanel>
+</p-tabView>
