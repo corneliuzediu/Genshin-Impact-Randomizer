@@ -34,3 +34,26 @@ export interface Profile {
     traveler?: Character;
     characters: Character[];
 }
+
+export class StatsTemplate {
+    elements: any;
+    weapons: any;
+    stars: any;
+    genres: any;
+    height: any;
+    constructor() {
+        this.elements = this.createCategoryObject();
+        this.weapons = this.createCategoryObject();
+        this.stars = this.createCategoryObject();
+        this.genres = this.createCategoryObject();
+        this.height = this.createCategoryObject();
+    }
+
+    private createCategoryObject() {
+        return {
+            all: {},
+            '5 stars': {},
+            '4 stars': {},
+        };
+    }
+}

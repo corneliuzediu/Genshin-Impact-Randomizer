@@ -1,3 +1,141 @@
-<div class="wrapper">
+<!-- 
+    - Select Profile in order to get variaty of informations
 
+    * Nr of characters where
+        - how many: - per different elements ( per star )
+                        + Pie Chart (general)
+                        + (click)   + shows more detail (how many per stars)
+                                    + Doughnut Chart
+
+                    - per different weapons (per star )
+                        + Vertical Bar
+                        + show all and per star
+
+                    - per different stars 
+                        + Pie Chart
+
+                    - different locations (per star)
+                        + Vertical Bar
+                        + show all and per star
+
+                    - per genre
+                        + Vertical Bar
+                        + show all and per star
+
+                    - per height 
+                        + Vertical Bar
+                        + show all and per star
+-->
+<div class="wrapper">
+    <div class="card flex justify-content-center generate_report">
+        <div>
+            <p-dropdown
+                [options]="profiles"
+                [(ngModel)]="selectedProfile"
+                optionLabel="userName"
+                placeholder="Select a Profile"
+            />
+        </div>
+        <p-button (click)="generateRaport()">Generate Raport </p-button>
+    </div>
+
+    <div *ngIf="!dataElementsAll" class="placeholder_wrapper">
+        <h2>Select one of the created profiles in order to get the stats.</h2>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts_wrapper">
+        <!-- Elements -->
+        <div class="chart_type" *ngIf="dataElementsAll || dataElementsPerStar">
+            <h2>Elements stats.</h2>
+            <div class="card flex justify-content-center">
+                <div>
+                    <p-chart
+                        type="pie"
+                        [data]="dataElementsAll"
+                        [options]="options"
+                    />
+                </div>
+                <div>
+                    <div class="card flex justify-content-center">
+                        <p-chart
+                            type="doughnut"
+                            [data]="dataElementsPerStar"
+                            [options]="options"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weapons -->
+        <div class="chart_type" *ngIf="dataWeapons">
+            <h2>Weapons stats.</h2>
+            <div class="card flex justify-content-center">
+                <div>
+                    <p-chart
+                        type="bar"
+                        [data]="dataWeapons"
+                        [options]="optionsBar"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <!-- Stars -->
+        <div class="chart_type" *ngIf="dataStars">
+            <h2>Stars stats.</h2>
+            <div class="card flex justify-content-center">
+                <div>
+                    <p-chart
+                        type="doughnut"
+                        [data]="dataStars"
+                        [options]="options"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <!-- Locations -->
+        <div class="chart_type" *ngIf="dataLocation">
+            <h2>Location stats.</h2>
+            <div class="card flex justify-content-center">
+                <div>
+                    <p-chart
+                        type="bar"
+                        [data]="dataLocation"
+                        [options]="optionsBar"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <!-- Genre -->
+        <div class="chart_type" *ngIf="dataGenre">
+            <h2>Weapons stats.</h2>
+            <div class="card flex justify-content-center">
+                <div>
+                    <p-chart
+                        type="bar"
+                        [data]="dataGenre"
+                        [options]="optionsBar"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <!-- Genre -->
+        <div class="chart_type" *ngIf="dataHeight">
+            <h2>Height stats.</h2>
+            <div class="card flex justify-content-center">
+                <div>
+                    <p-chart
+                        type="bar"
+                        [data]="dataHeight"
+                        [options]="optionsBar"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

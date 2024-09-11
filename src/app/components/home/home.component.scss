@@ -1,6 +1,53 @@
 .wrapper {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 100%;
+    align-items: center;
+}
+
+.placeholder_wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 30px 20px; 
+}
+
+.generate_report{
+    display: flex;
+    justify-content: space-between;
+    width: 450px;
+    gap: 2rem;
+
+    div{
+        display: flex;
+        justify-content: center;
+        width: 200px;
+    }
+}
+
+/* Charts */
+.charts_wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 80%;
+}
+
+.chart_type {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    h2 {
+        padding-block: 2rem 1.5rem;
+        text-decoration: underline gray 2px;
+    }
+
+    div {
+        display: flex;
+        width: 100%;
+        p-chart {
+            width: 100%;
+        }
+    }
 }
