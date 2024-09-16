@@ -1078,6 +1078,45 @@
             "location": "fontain",
             "sex": "female",
             "height": "small"
+        },
+        {
+            "name": "Emilie",
+            "id": 84,
+            "archon": false,
+            "image_src": "./assets/characters/emilie.webp",
+            "element": "dendro",
+            "weapon": "polearm",
+            "selected": false,
+            "stars": "5",
+            "location": "fontain",
+            "sex": "female",
+            "height": "tall"
+        },
+        {
+            "name": "Kachina",
+            "id": 85,
+            "archon": false,
+            "image_src": "./assets/characters/kachina.webp",
+            "element": "geo",
+            "weapon": "polearm",
+            "selected": false,
+            "stars": "4",
+            "location": "natlan",
+            "sex": "female",
+            "height": "small"
+        },
+        {
+            "name": "Mualani",
+            "id": 86,
+            "archon": false,
+            "image_src": "./assets/characters/mualani.webp",
+            "element": "hydro",
+            "weapon": "catalyst",
+            "selected": false,
+            "stars": "5",
+            "location": "natlan",
+            "sex": "female",
+            "height": "medium"
         }
     ],
     "weekly_boss": [
@@ -1321,6 +1360,18 @@
             "name": "Statue of Marble and Brass",
             "id": 30,
             "image_src": "./assets/bosses/world_boss/Statue of Marble and Brass.webp",
+            "selected": false
+        },
+        {
+            "name": "Holawaqa Ngoubou",
+            "id": 31,
+            "image_src": "./assets/bosses/world_boss/Holawaqa Ngoubou.webp",
+            "selected": false
+        },
+        {
+            "name": "Kongamato",
+            "id": 32,
+            "image_src": "./assets/bosses/world_boss/Kongamato.webp",
             "selected": false
         }
     ]

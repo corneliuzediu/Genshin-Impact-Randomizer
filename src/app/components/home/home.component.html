@@ -1,31 +1,3 @@
-<!-- 
-    - Select Profile in order to get variaty of informations
-
-    * Nr of characters where
-        - how many: - per different elements ( per star )
-                        + Pie Chart (general)
-                        + (click)   + shows more detail (how many per stars)
-                                    + Doughnut Chart
-
-                    - per different weapons (per star )
-                        + Vertical Bar
-                        + show all and per star
-
-                    - per different stars 
-                        + Pie Chart
-
-                    - different locations (per star)
-                        + Vertical Bar
-                        + show all and per star
-
-                    - per genre
-                        + Vertical Bar
-                        + show all and per star
-
-                    - per height 
-                        + Vertical Bar
-                        + show all and per star
--->
 <div class="wrapper">
     <div class="card flex justify-content-center generate_report">
         <div>
@@ -49,21 +21,21 @@
         <div class="chart_type" *ngIf="dataElementsAll || dataElementsPerStar">
             <h2>Elements stats.</h2>
             <div class="card flex justify-content-center">
-                <div>
+                <div class="chart_div">
+                    <h3>Overall</h3>
                     <p-chart
-                        type="pie"
-                        [data]="dataElementsAll"
-                        [options]="options"
+                    type="pie"
+                    [data]="dataElementsAll"
+                    [options]="options"
                     />
                 </div>
-                <div>
-                    <div class="card flex justify-content-center">
-                        <p-chart
-                            type="doughnut"
-                            [data]="dataElementsPerStar"
-                            [options]="options"
-                        />
-                    </div>
+                <div class="card flex justify-content-center chart_div">
+                    <h3>Per Star</h3>
+                    <p-chart
+                        type="doughnut"
+                        [data]="dataElementsPerStar"
+                        [options]="options"
+                    />
                 </div>
             </div>
         </div>
@@ -112,7 +84,7 @@
 
         <!-- Genre -->
         <div class="chart_type" *ngIf="dataGenre">
-            <h2>Weapons stats.</h2>
+            <h2>Genre stats.</h2>
             <div class="card flex justify-content-center">
                 <div>
                     <p-chart

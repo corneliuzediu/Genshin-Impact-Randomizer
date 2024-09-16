@@ -97,11 +97,22 @@ export class HomeComponent {
         let elementCounts = this.statistics.getProfilesStats(
             this.selectedProfile
         );
+
+        const documentStyle = getComputedStyle(document.documentElement);
         this.dataElementsAll = this.createElementsChart(elementCounts);
         this.dataElementsPerStar =
             this.createElementPerStarsChart(elementCounts);
-        this.dataWeapons = this.createWeaponsChart(elementCounts);
-        this.dataStars = this.createStarsChart(elementCounts);
+        this.dataWeapons = this.createWeaponsChart(
+            elementCounts,
+            documentStyle
+        );
+        this.dataStars = this.createStarsChart(elementCounts, documentStyle);
+        this.dataLocation = this.createLocationChart(
+            elementCounts,
+            documentStyle
+        );
+        this.dataGenre = this.createGenreChart(elementCounts, documentStyle);
+        this.dataHeight = this.createHeightChart(elementCounts, documentStyle);
         this.options = this.getOptionsChart();
         this.optionsBar = this.getOptionsChartBar();
     }
@@ -124,11 +135,13 @@ export class HomeComponent {
             labels: Object.keys(elementCounts.elements['5 stars']),
             datasets: [
                 {
+                    label: '5 Stars Characters',
                     data: Object.values(elementCounts.elements['5 stars']),
                     backgroundColor: this.background,
                     hoverBackgroundColor: this.backgroundHover,
                 },
                 {
+                    label: '4 Stars Characters',
                     data: Object.values(elementCounts.elements['4 stars']),
                     backgroundColor: this.background,
                     hoverBackgroundColor: this.backgroundHover,
@@ -137,13 +150,12 @@ export class HomeComponent {
         };
     }
 
-    createWeaponsChart(elementCounts) {
-        const documentStyle = getComputedStyle(document.documentElement);
+    createWeaponsChart(elementCounts, documentStyle) {
         return {
             labels: Object.keys(elementCounts.weapons.all),
             datasets: [
                 {
-                    label: 'All Weapons',
+                    label: 'All Characters',
                     data: Object.values(elementCounts.weapons.all),
                     backgroundColor: [
                         documentStyle.getPropertyValue('--green-500'),
@@ -153,7 +165,7 @@ export class HomeComponent {
                     ],
                 },
                 {
-                    label: '5 Stars',
+                    label: '5 Stars Characters',
                     data: Object.values(elementCounts.weapons['5 stars']),
                     backgroundColor: [
                         documentStyle.getPropertyValue('--orange-500'),
@@ -163,7 +175,7 @@ export class HomeComponent {
                     ],
                 },
                 {
-                    label: '4 Stars',
+                    label: '4 Stars Characters',
                     data: Object.values(elementCounts.weapons['4 stars']),
                     backgroundColor: [
                         documentStyle.getPropertyValue('--purple-500'),
@@ -176,10 +188,11 @@ export class HomeComponent {
         };
     }
 
-    createStarsChart(elementCounts) {
-        const documentStyle = getComputedStyle(document.documentElement);
+    createStarsChart(elementCounts, documentStyle) {
+        let labelValue = Object.keys(elementCounts.stars.all);
+        labelValue = labelValue.map((value) => value + ' Stars Characters');
         return {
-            labels: Object.keys(elementCounts.stars.all),
+            labels: labelValue,
             datasets: [
                 {
                     data: Object.values(elementCounts.stars.all),
@@ -189,6 +202,119 @@ export class HomeComponent {
                     ],
                     hoverBackgroundColor: [
                         documentStyle.getPropertyValue('--orange-300'),
+                        documentStyle.getPropertyValue('--purple-300'),
+                    ],
+                },
+            ],
+        };
+    }
+
+    createLocationChart(elementCounts, documentStyle) {
+        return {
+            labels: Object.keys(elementCounts.location.all),
+            datasets: [
+                {
+                    label: 'All Characters',
+                    data: Object.values(elementCounts.location.all),
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--green-500'),
+                    ],
+                    hoverBackgroundColor: [
+                        documentStyle.getPropertyValue('--green-300'),
+                    ],
+                },
+                {
+                    label: '5 Stars Characters',
+                    data: Object.values(elementCounts.location['5 stars']),
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--orange-500'),
+                    ],
+                    hoverBackgroundColor: [
+                        documentStyle.getPropertyValue('--orange-300'),
+                    ],
+                },
+                {
+                    label: '4 Stars Characters',
+                    data: Object.values(elementCounts.location['4 stars']),
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--purple-500'),
+                    ],
+                    hoverBackgroundColor: [
+                        documentStyle.getPropertyValue('--purple-300'),
+                    ],
+                },
+            ],
+        };
+    }
+
+    createGenreChart(elementCounts, documentStyle) {
+        return {
+            labels: Object.keys(elementCounts.genres.all),
+            datasets: [
+                {
+                    label: 'All Characters',
+                    data: Object.values(elementCounts.genres.all),
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--green-500'),
+                    ],
+                    hoverBackgroundColor: [
+                        documentStyle.getPropertyValue('--green-300'),
+                    ],
+                },
+                {
+                    label: '5 Stars Characters',
+                    data: Object.values(elementCounts.genres['5 stars']),
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--orange-500'),
+                    ],
+                    hoverBackgroundColor: [
+                        documentStyle.getPropertyValue('--orange-300'),
+                    ],
+                },
+                {
+                    label: '4 Stars Characters',
+                    data: Object.values(elementCounts.genres['4 stars']),
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--purple-500'),
+                    ],
+                    hoverBackgroundColor: [
+                        documentStyle.getPropertyValue('--purple-300'),
+                    ],
+                },
+            ],
+        };
+    }
+    createHeightChart(elementCounts, documentStyle) {
+        return {
+            labels: Object.keys(elementCounts.height.all),
+            datasets: [
+                {
+                    label: 'All Characters',
+                    data: Object.values(elementCounts.height.all),
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--green-500'),
+                    ],
+                    hoverBackgroundColor: [
+                        documentStyle.getPropertyValue('--green-300'),
+                    ],
+                },
+                {
+                    label: '5 Stars Characters',
+                    data: Object.values(elementCounts.height['5 stars']),
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--orange-500'),
+                    ],
+                    hoverBackgroundColor: [
+                        documentStyle.getPropertyValue('--orange-300'),
+                    ],
+                },
+                {
+                    label: '4 Stars Characters',
+                    data: Object.values(elementCounts.height['4 stars']),
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--purple-500'),
+                    ],
+                    hoverBackgroundColor: [
                         documentStyle.getPropertyValue('--purple-300'),
                     ],
                 },

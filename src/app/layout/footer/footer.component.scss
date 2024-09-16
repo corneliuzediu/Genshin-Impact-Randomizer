@@ -10,4 +10,11 @@
     span {
         font-size: 0.8rem;
     }
+
+    @media (max-width: 700px) {
+        span,
+        p {
+            text-align: center;
+        }
+    }
 }

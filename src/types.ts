@@ -39,12 +39,14 @@ export class StatsTemplate {
     elements: any;
     weapons: any;
     stars: any;
+    location:any;
     genres: any;
     height: any;
     constructor() {
         this.elements = this.createCategoryObject();
         this.weapons = this.createCategoryObject();
         this.stars = this.createCategoryObject();
+        this.location = this.createCategoryObject();
         this.genres = this.createCategoryObject();
         this.height = this.createCategoryObject();
     }

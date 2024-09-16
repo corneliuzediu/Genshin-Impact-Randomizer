@@ -43,21 +43,28 @@ export class StatisticsService {
             character.stars
         );
 
-        // // Handle stars
+        // Handle stars
         this.incrementCount(
             this.statsHolder.stars,
             character.stars,
             character.stars
         );
 
-        // // Handle genres
+        // Handle location
+        this.incrementCount(
+            this.statsHolder.location,
+            character.location,
+            character.stars
+        );
+
+        // Handle genres
         this.incrementCount(
             this.statsHolder.genres,
             character.sex,
             character.stars
         );
 
-        // // Handle height
+        // Handle height
         this.incrementCount(
             this.statsHolder.height,
             character.height,
